@@ -1,8 +1,7 @@
-@import "tailwindcss";
-
+@import 'tailwindcss';
 
 /* To use color that are not defined in tailwind we  change it here 
 for example --color-name you want: # hex color ; */
-@theme{
-    --color-primary: #A17878;
+@theme {
+  --color-primary: #a17878;
 }
