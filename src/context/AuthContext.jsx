@@ -1,12 +1,17 @@
-import { createContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from './AuthContext.js';
+
 import toast from 'react-hot-toast';
 
-const { VITE_AUTH_TOKEN, VITE_API_URL } = import.meta.env;
+const { VITE_AUTH_TOKEN, VITE_API_URL, VITE_API_UPLOADS } = import.meta.env;
 
-const AuthContext = createContext(null);
+// ------------------------------------------
+export const AuthProvider = ({ children }) => {
+  const [authUserLoading, setAuthUserLoading] = useState(true);
 
-const AuthProvider = ({ children }) => {
   const [authToken, setAuthToken] = useState(
     localStorage.getItem(VITE_AUTH_TOKEN) || null
   );
@@ -14,13 +19,17 @@ const AuthProvider = ({ children }) => {
   const [authUser, setAuthUser] = useState(
     JSON.parse(localStorage.getItem('AuthUser')) || null
   );
-
-  const [authUserLoading, setAuthUserLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUser = async () => {
+      setAuthUserLoading(true);
+
       try {
+        if (authUser) return;
+
         const res = await fetch(`${VITE_API_URL}/users/profile`, {
+          method: 'GET', // Por defecto GET si no se especifica, aunque es buena práctica hacerlo siempre
           headers: {
             Authorization: authToken,
           },
@@ -36,6 +45,7 @@ const AuthProvider = ({ children }) => {
         localStorage.setItem('AuthUser', JSON.stringify(body.data.user));
       } catch (err) {
         authLogout();
+        navigate('/');
         toast.error(err.message);
       } finally {
         setAuthUserLoading(false);
@@ -48,7 +58,7 @@ const AuthProvider = ({ children }) => {
       setAuthUser(null);
       setAuthUserLoading(false);
     }
-  }, [authToken]);
+  }, [authToken, authUser, navigate]);
 
   const authLogin = (token) => {
     setAuthToken(token);
@@ -90,5 +100,3 @@ const AuthProvider = ({ children }) => {
 AuthProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
-
-export { AuthContext, AuthProvider };
