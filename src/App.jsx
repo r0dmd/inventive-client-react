@@ -1,3 +1,5 @@
+
+
 // Hooks
 import { Routes, Route } from 'react-router-dom';
 
@@ -13,6 +15,11 @@ import { Routes, Route } from 'react-router-dom';
   RegisterPage,
 } from './pages/index.js'; */
 
+import HomePage from './pages/Home.jsx';
+import LoginPage from './pages/LoginPage.jsx';
+
+
+
 // Componentes
 import { Header, Footer } from './components/index.js';
 
@@ -26,18 +33,18 @@ function App() {
   return (
     <>
       <Header />
-      <div className='bg-primary min-h-screen flex items-center justify-center'>
-        <div className='text-center'>
-          <h1 className='text-5xl font-bold text-white mb-4'>Inventive</h1>
-          <p className='text-black-500 font-bold p-4 rounded-lg'>
-            La app que te hace las facturas más fáciles con solo una foto. Ahora
-            con Tailwind dejandolo bonito
-          </p>
-        </div>
-      </div>
+      <main className="min-h-screen bg-primary">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
+          {/* Agregarás más rutas aquí más adelante */}
+        </Routes>
+      </main>
       <Footer />
+      <Toaster position="top-right" />
     </>
   );
 }
 
 export default App;
+
