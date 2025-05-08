@@ -1,8 +1,6 @@
-// Formulario que pega a /login
-//  que hace este pagina? 
 // Mostrar un formulario con email y contraseña.
 // Enviar los datos al backend (POST /users/login).
-// Si todo va bien, guardar el token con authLogin() y redirigir al home
+// Si todo va bien, guardar el token con authLogin() y redirigir a la homepage
 
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -11,6 +9,7 @@ import toast from 'react-hot-toast';
 
 const { VITE_API_URL } = import.meta.env;
 
+// ------------------------------------------
 const LoginPage = () => {
   const { authLogin } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -45,34 +44,34 @@ const LoginPage = () => {
   };
 
   return (
-    <main className="flex items-center justify-center min-h-screen bg-primary">
+    <main className='flex items-center justify-center min-h-screen bg-primary'>
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-8 rounded shadow-md space-y-4 w-full max-w-md"
+        className='bg-white p-8 rounded shadow-md space-y-4 w-full max-w-md'
       >
-        <h2 className="text-2xl font-bold mb-4">Iniciar sesión</h2>
+        <h2 className='text-2xl font-bold mb-4'>Iniciar sesión</h2>
 
         <input
-          type="text"
-          placeholder="username"
+          type='text'
+          placeholder='username'
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
-          className="w-full p-2 border rounded"
+          className='w-full p-2 border rounded'
         />
 
         <input
-          type="password"
-          placeholder="Contraseña"
+          type='password'
+          placeholder='Contraseña'
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-          className="w-full p-2 border rounded"
+          className='w-full p-2 border rounded'
         />
 
         <button
-          type="submit"
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white p-2 rounded"
+          type='submit'
+          className='w-full bg-blue-600 hover:bg-blue-700 text-white p-2 rounded'
         >
           Iniciar sesión
         </button>
