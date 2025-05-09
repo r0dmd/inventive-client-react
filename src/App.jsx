@@ -7,7 +7,7 @@ import {
   //AboutPage,
   //AllUsersPage,
   LoginPage,
-  //NotFoundPage,
+  NotFoundPage,
   //PrivacyPolicyPage,
   //ProfilePage,
   //RegisterPage,
@@ -23,7 +23,8 @@ function App() {
         <Routes>
           <Route path='/' element={<HomePage />} />
           <Route path='/login' element={<LoginPage />} />
-          {/* Agregarás más rutas aquí más adelante */}
+
+          <Route path='*' element={<NotFoundPage />} />
         </Routes>
       </main>
       <Footer />

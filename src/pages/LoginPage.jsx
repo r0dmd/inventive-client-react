@@ -1,16 +1,16 @@
-// Mostrar un formulario con email y contraseña.
-// Enviar los datos al backend (POST /users/login).
-// Si todo va bien, guardar el token con authLogin() y redirigir a la homepage
-
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import AuthContext from '../context/AuthContext';
+import { useDocumentTitle } from '../hooks/index.js';
+import AuthContext from '../context/AuthContext.js';
+
 import toast from 'react-hot-toast';
 
 const { VITE_API_URL } = import.meta.env;
 
 // ------------------------------------------
 const LoginPage = () => {
+  useDocumentTitle('Login');
+
   const { authLogin } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -21,7 +21,7 @@ const LoginPage = () => {
     e.preventDefault();
 
     try {
-      const res = await fetch(`${VITE_API_URL}/api/users/login`, {
+      const res = await fetch(`${VITE_API_URL}/users/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -30,6 +30,7 @@ const LoginPage = () => {
       });
 
       const body = await res.json();
+      console.log(body);
 
       if (body.status === 'error') {
         throw new Error(body.message);
