@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import AuthContext from './AuthContext';
+import AuthContext from './AuthContext.js';
 
 import toast from 'react-hot-toast';
 

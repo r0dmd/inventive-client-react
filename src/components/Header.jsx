@@ -1,29 +1,39 @@
-// src/components/Header.jsx
-function Header() {
+import { NavLink } from 'react-router-dom';
+
+const { VITE_APP_NAME } = import.meta.env;
+
+// ------------------------------------------
+const Header = () => {
   return (
     <header className='bg-stone-700 py-4 px-6 flex items-center justify-between mb-4'>
-      <h1 className='text-2xl font-bold text-white'>Inventive</h1>
+      <h1 className='text-2xl font-bold text-white'>{VITE_APP_NAME}</h1>
       <nav>
         <ul className='flex gap-4 text-gray-700'>
           <li>
-            <a href='#' className=' text-white hover:text-blue-500'>
-              Inicio
-            </a>
+            <NavLink
+              to='/'
+              className={({ isActive }) =>
+                `text-white hover:text-blue-500 ${isActive ? 'font-bold' : ''}`
+              }
+            >
+              Home
+            </NavLink>
           </li>
+
           <li>
-            <a href='#' className=' text-white hover:text-blue-500'>
+            <NavLink
+              to='/login'
+              className={({ isActive }) =>
+                `text-white hover:text-blue-500 ${isActive ? 'font-bold' : ''}`
+              }
+            >
               Login
-            </a>
-          </li>
-          <li>
-            <a href='#' className=' text-white hover:text-blue-500'>
-              Contacto
-            </a>
+            </NavLink>
           </li>
         </ul>
       </nav>
     </header>
   );
-}
+};
 
 export default Header;
