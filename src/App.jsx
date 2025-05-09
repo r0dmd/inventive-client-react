@@ -10,7 +10,7 @@ import {
   NotFoundPage,
   //PrivacyPolicyPage,
   //ProfilePage,
-  //RegisterPage,
+  RegisterPage,
 } from './pages/index.js';
 
 // ------------------------------------------
@@ -23,12 +23,12 @@ function App() {
         <Routes>
           <Route path='/' element={<HomePage />} />
           <Route path='/login' element={<LoginPage />} />
-
+          <Route path='/register' element={<RegisterPage />} />
           <Route path='*' element={<NotFoundPage />} />
         </Routes>
       </main>
       <Footer />
-      <Toaster position='top-right' />
+      <Toaster position='top-center' />
     </>
   );
 }
