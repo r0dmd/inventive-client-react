@@ -1,5 +1,5 @@
 import { useCallback, useContext, useState } from 'react';
-import { AuthContext } from '../contexts/index.js';
+import AuthContext from '../context/AuthContext.js';
 import toast from 'react-hot-toast';
 
 const { VITE_API_URL } = import.meta.env;
