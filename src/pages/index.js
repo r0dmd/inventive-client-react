@@ -3,4 +3,4 @@ import HomePage from './HomePage.jsx';
 import NotFoundPage from './NotFoundPage.jsx';
 import RegisterPage from './RegisterPage.jsx';
 
-export { LoginPage, HomePage, NotFoundPage , RegisterPage};
+export { LoginPage, HomePage, NotFoundPage, RegisterPage };
