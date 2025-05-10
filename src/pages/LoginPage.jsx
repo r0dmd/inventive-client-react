@@ -63,7 +63,7 @@ const LoginPage = () => {
 
         <input
           type='password'
-          placeholder='Contraseña'
+          placeholder='password'
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
