@@ -9,7 +9,7 @@ import {
   LoginPage,
   NotFoundPage,
   //PrivacyPolicyPage,
-  //ProfilePage,
+  ProfilePage,
   RegisterPage,
 } from './pages/index.js';
 
@@ -25,6 +25,7 @@ function App() {
           <Route path='/login' element={<LoginPage />} />
           <Route path='/register' element={<RegisterPage />} />
           <Route path='*' element={<NotFoundPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
         </Routes>
       </main>
       <Footer />
