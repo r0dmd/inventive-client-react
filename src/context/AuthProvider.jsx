@@ -45,7 +45,6 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('AuthUser', JSON.stringify(body.data.user));
       } catch (err) {
         authLogout();
-        navigate('/');
         toast.error(err.message);
       } finally {
         setAuthUserLoading(false);
