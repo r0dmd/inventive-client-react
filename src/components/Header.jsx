@@ -9,6 +9,12 @@ const Header = () => {
   const { authUser, authLogout } = useContext(AuthContext);
   const navigate = useNavigate(); 
 
+    const handleLogout = () => {
+    authLogout();
+    navigate('/'); // 👈 redirige al home
+  };
+
+
   return (
     <header className='bg-stone-700 py-4 px-6 flex items-center justify-between mb-4'>
       <h1 className='text-2xl font-bold text-white'>{VITE_APP_NAME}</h1>
@@ -63,15 +69,13 @@ const Header = () => {
                 </NavLink>
               </li>
               <li>
-                <button
-                  onClick={() => {
-                    authLogout(); 
-                    navigate('/'); 
-                  }}
-                  className='text-white hover:text-red-500 font-semibold'
-                >
-                  Logout
-                </button>
+            <button
+                      onClick={handleLogout}
+                      className='text-white hover:text-red-500 font-semibold'
+                    >
+                      Logout
+                    </button>
+
               </li>
             </>
           )}

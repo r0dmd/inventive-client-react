@@ -18,12 +18,13 @@ const ProfilePage = () => {
      useEffect(() => {
     if (!authToken) {
       toast.error('You must be logged in to access the profile');
-      navigate('/login');
+      navigate('/');
     }
-    if (!authToken) return null;
     
   }, [authToken, navigate]);
-
+  
+  
+      if (!authToken) return null;
     
 
 
