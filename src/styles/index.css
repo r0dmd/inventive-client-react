@@ -5,3 +5,16 @@ for example --color-name you want: # hex color ; */
 @theme {
   --color-primary: #a17878;
 }
+
+
+.password-container {
+  position: relative;
+}
+
+.password-container span {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}

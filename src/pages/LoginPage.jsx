@@ -2,6 +2,8 @@ import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDocumentTitle } from '../hooks/index.js';
 import AuthContext from '../context/AuthContext.js';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { useTogglePasswordVisibility } from '../hooks';
 
 import toast from 'react-hot-toast';
 
@@ -16,6 +18,7 @@ const LoginPage = () => {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const { isVisible, toggleVisibility } = useTogglePasswordVisibility();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -61,20 +64,29 @@ const LoginPage = () => {
           className='w-full p-2 border rounded'
         />
 
-        <input
-          type='password'
-          placeholder='password'
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          className='w-full p-2 border rounded'
-        />
+      <div className="flex flex-col space-y-2 relative">
+  <label htmlFor="password" className="text-sm font-medium">Password</label>
+  <input
+    id="password"
+    type={isVisible ? 'text' : 'password'}
+    required
+    value={password}
+    onChange={(e) => setPassword(e.target.value)}
+    className="w-full p-2 border rounded pr-10"
+  />
+  <span
+    onClick={toggleVisibility}
+    className="absolute right-3 top-[38px] cursor-pointer text-gray-600"
+  >
+    {isVisible ? <FaEyeSlash /> : <FaEye />}
+  </span>
+</div>
 
         <button
           type='submit'
           className='w-full bg-blue-600 hover:bg-blue-700 text-white p-2 rounded'
         >
-          Iniciar sesión
+          Log In
         </button>
       </form>
     </main>

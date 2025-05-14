@@ -58,6 +58,10 @@ const Header = () => {
 
           {authUser && (
             <>
+
+              <li className='text-white font-medium'>
+                Hello, <span className='text-blue-300'>{authUser.username}</span>
+              </li>
               <li>
                 <NavLink
                   to='/profile'
