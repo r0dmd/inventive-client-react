@@ -1,12 +1,16 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { useTogglePasswordVisibility } from '../hooks';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const { VITE_API_URL } = import.meta.env;
+// ----------------
 
 const RegisterPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const { isVisible, toggleVisibility } = useTogglePasswordVisibility();
 
   const navigate = useNavigate();
 
@@ -52,14 +56,24 @@ const RegisterPage = () => {
           className='w-full p-2 border rounded'
         />
 
-        <input
-          type='password'
-          placeholder='password'
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          className='w-full p-2 border rounded'
-        />
+                <div className="flex flex-col space-y-2 relative">
+          <label htmlFor="password" className="text-sm font-medium">Password</label>
+          <input
+            id="password"
+            type={isVisible ? 'text' : 'password'}
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full p-2 border rounded pr-10"
+          />
+          <span
+            onClick={toggleVisibility}
+            className="absolute right-3 top-[38px] cursor-pointer text-gray-600"
+          >
+            {isVisible ? <FaEyeSlash /> : <FaEye />}
+          </span>
+        </div>
+
 
         <button
           type='submit'
