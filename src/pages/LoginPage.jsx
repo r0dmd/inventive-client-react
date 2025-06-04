@@ -48,43 +48,45 @@ const LoginPage = () => {
   };
 
   return (
-    <main className='flex items-center justify-center min-h-screen bg-primary'>
+    <main className="flex items-center justify-center min-h-screen bg-primary">
       <form
         onSubmit={handleSubmit}
-        className='bg-white p-8 rounded shadow-md space-y-4 w-full max-w-md'
+        className="bg-white p-8 rounded shadow-md space-y-4 w-full max-w-md"
       >
-        <h2 className='text-2xl font-bold mb-4'>Iniciar sesión</h2>
+        <h2 className="text-2xl font-bold mb-4">Iniciar sesión</h2>
 
         <input
-          type='text'
-          placeholder='username'
+          type="text"
+          placeholder="username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
-          className='w-full p-2 border rounded'
+          className="w-full p-2 border rounded"
         />
 
-      <div className="flex flex-col space-y-2 relative">
-  <label htmlFor="password" className="text-sm font-medium">Password</label>
-  <input
-    id="password"
-    type={isVisible ? 'text' : 'password'}
-    required
-    value={password}
-    onChange={(e) => setPassword(e.target.value)}
-    className="w-full p-2 border rounded pr-10"
-  />
-  <span
-    onClick={toggleVisibility}
-    className="absolute right-3 top-[38px] cursor-pointer text-gray-600"
-  >
-    {isVisible ? <FaEyeSlash /> : <FaEye />}
-  </span>
-</div>
+        <div className="flex flex-col space-y-2 relative">
+          <label htmlFor="password" className="text-sm font-medium">
+            Password
+          </label>
+          <input
+            id="password"
+            type={isVisible ? 'text' : 'password'}
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full p-2 border rounded pr-10"
+          />
+          <span
+            onClick={toggleVisibility}
+            className="absolute right-3 top-[38px] cursor-pointer text-gray-600"
+          >
+            {isVisible ? <FaEyeSlash /> : <FaEye />}
+          </span>
+        </div>
 
         <button
-          type='submit'
-          className='w-full bg-blue-600 hover:bg-blue-700 text-white p-2 rounded'
+          type="submit"
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white p-2 rounded"
         >
           Log In
         </button>
