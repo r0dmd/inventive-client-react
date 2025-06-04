@@ -11,6 +11,7 @@ import {
   //PrivacyPolicyPage,
   ProfilePage,
   RegisterPage,
+  UserAdminPage,
 } from './pages/index.js';
 
 // ------------------------------------------
@@ -19,17 +20,19 @@ function App() {
   return (
     <>
       <Header />
-      <main className='min-h-screen bg-primary'>
+      <main className="min-h-screen bg-primary">
         <Routes>
-          <Route path='/' element={<HomePage />} />
-          <Route path='/login' element={<LoginPage />} />
-          <Route path='/register' element={<RegisterPage />} />
-          <Route path='*' element={<NotFoundPage />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="*" element={<NotFoundPage />} />
           <Route path="/profile" element={<ProfilePage />} />
+
+          <Route path="/admin" element={<UserAdminPage />} />
         </Routes>
       </main>
       <Footer />
-      <Toaster position='top-center' />
+      <Toaster position="top-center" />
     </>
   );
 }
