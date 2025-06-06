@@ -65,6 +65,7 @@ const Header = () => {
                 Hello,{' '}
                 <span className="text-blue-300">{authUser.username}</span>
               </li>
+
               <li>
                 <NavLink
                   to="/profile"
@@ -75,6 +76,19 @@ const Header = () => {
                   }
                 >
                   Profile
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink
+                  to="/inventories"
+                  className={({ isActive }) =>
+                    `text-white hover:text-blue-500 ${
+                      isActive ? 'font-bold' : ''
+                    }`
+                  }
+                >
+                  My inventories
                 </NavLink>
               </li>
 

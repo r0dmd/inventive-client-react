@@ -3,9 +3,9 @@ import { Toaster } from 'react-hot-toast';
 
 import { Header, Footer } from './components/index.js';
 import {
-  HomePage,
   //AboutPage,
-  //AllUsersPage,
+  HomePage,
+  InventoriesPage,
   LoginPage,
   NotFoundPage,
   //PrivacyPolicyPage,
@@ -27,6 +27,8 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="*" element={<NotFoundPage />} />
           <Route path="/profile" element={<ProfilePage />} />
+
+          <Route path="/inventories" element={<InventoriesPage />} />
 
           <Route path="/admin" element={<UserAdminPage />} />
         </Routes>
