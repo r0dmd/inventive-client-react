@@ -12,33 +12,36 @@ const useInventories = () => {
   const [inventoriesLoading, setInventoriesLoading] = useState(false);
 
   const getInventories = useCallback(async () => {
-    try {
-      setInventoriesLoading(true);
+  try {
+    setInventoriesLoading(true);
 
-      const data = await fetch(`${VITE_API_URL}/inventories`, {
-        method: 'GET',
-        headers: {
-          Authorization: authToken,
-        },
-      });
+    const res = await fetch(`${VITE_API_URL}/inventories`, {
+      method: 'GET',
+      headers: {
+        Authorization: authToken,
+      },
+    });
 
-      setInventories(data);
-      return data;
-    } catch (err) {
-      console.error('Error fetching inventories:', err);
-      toast.error('Error fetching inventories');
-      throw err;
-    } finally {
-      setInventoriesLoading(false);
-    }
-  }, [authToken]);
+    const body = await res.json();
+    if (body.status === 'error') throw new Error(body.message);
+    setInventories(body.data.inventories);
+    return body.data.inventories;
+  } catch (err) {
+    console.error('Error fetching inventories:', err);
+    toast.error('Error fetching inventories');
+    throw err;
+  } finally {
+    setInventoriesLoading(false);
+  }
+}, [authToken]);
+
 
   const addInventory = useCallback(
     async (inventoryData) => {
       try {
         setInventoriesLoading(true);
 
-        const newInventory = await fetch('/inventories/new', {
+        const newInventory = await fetch(`${VITE_API_URL}/inventories/new`, {
           method: 'POST',
           headers: {
             Authorization: authToken,
@@ -64,7 +67,7 @@ const useInventories = () => {
       try {
         setInventoriesLoading(true);
 
-        const updated = await fetch(`/inventories/${inventoryId}/update`, {
+        const updated = await fetch(`${VITE_API_URL}/inventories/${inventoryId}/update`, {
           method: 'PUT',
           headers: {
             Authorization: authToken,
@@ -73,7 +76,7 @@ const useInventories = () => {
         });
 
         setInventories((prev) =>
-          prev.map((inv) => (inv._id === inventoryId ? updated : inv))
+          prev.map((inv) => (inv.id === inventoryId ? updated : inv))
         );
         return updated;
       } catch (err) {
@@ -92,14 +95,14 @@ const useInventories = () => {
       try {
         setInventoriesLoading(true);
 
-        await fetch(`/inventories/${inventoryId}/delete`, {
+        await fetch(`${VITE_API_URL}/inventories/${inventoryId}/delete`, {
           method: 'DELETE',
           headers: {
             Authorization: authToken,
           },
         });
 
-        setInventories((prev) => prev.filter((inv) => inv._id !== inventoryId));
+        setInventories((prev) => prev.filter((inv) => inv.id !== inventoryId));
       } catch (err) {
         console.error('Error deleting inventory:', err);
         toast.error('Error deleting inventory');
