@@ -91,7 +91,7 @@ const useProducts = (inventoryId) => {
           throw new Error('Failed to update product');
 
         setProducts((prev) =>
-          prev.map((prod) => (prod._id === productId ? updatedProduct : prod))
+          prev.map((prod) => (prod.id === productId ? updatedProduct : prod))
         );
         return updatedProduct;
       } catch (err) {
@@ -122,7 +122,7 @@ const useProducts = (inventoryId) => {
 
         if (res.status === 'error') throw new Error('Failed to delete product');
 
-        setProducts((prev) => prev.filter((prod) => prod._id !== productId));
+        setProducts((prev) => prev.filter((prod) => prod.id !== productId));
       } catch (err) {
         console.error('Error deleting product:', err);
         toast.error('Error deleting product');

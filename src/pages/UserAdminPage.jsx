@@ -100,7 +100,7 @@ const UserAdminPage = () => {
           </thead>
           <tbody>
             {users.map((u) => (
-              <tr key={u._id}>
+              <tr key={u.id}>
                 <td className="border p-2">{u.username}</td>
                 <td className="border p-2">{u.role}</td>
                 <td className="border p-2">{u.createdAt}</td>
