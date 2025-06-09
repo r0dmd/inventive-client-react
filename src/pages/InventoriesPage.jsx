@@ -172,6 +172,12 @@ const InventoriesPage = () => {
                         >
                           Delete
                         </button>
+                        <button
+                          onClick={() => navigate(`/inventories/${inv.id}/products`)}
+                          className="bg-purple-500 text-white px-3 py-1 rounded hover:bg-purple-600"
+                        >
+                          View Products
+                        </button>
                       </>
                     )}
                   </td>

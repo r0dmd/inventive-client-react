@@ -26,7 +26,7 @@ const useProducts = (inventoryId) => {
 
       if (data.status === 'error') throw new Error('Failed to fetch products');
 
-      setProducts(data);
+      setProducts(data.products)
       return data;
     } catch (err) {
       console.error('Error fetching products:', err);
@@ -85,14 +85,17 @@ const useProducts = (inventoryId) => {
           }
         );
 
-        const updatedProduct = await res.json();
+          const updatedProductResponse = await res.json();
 
-        if (updatedProduct.status === 'error')
-          throw new Error('Failed to update product');
+          if (updatedProductResponse.status === 'error')
+            throw new Error('Failed to update product');
 
-        setProducts((prev) =>
-          prev.map((prod) => (prod.id === productId ? updatedProduct : prod))
-        );
+          const updatedProduct = updatedProductResponse.product;
+
+          setProducts((prev) =>
+            prev.map((prod) => (prod.id === productId ? updatedProduct : prod))
+          );
+
         return updatedProduct;
       } catch (err) {
         console.error('Error updating product:', err);
@@ -110,6 +113,7 @@ const useProducts = (inventoryId) => {
       try {
         setProductsLoading(true);
 
+
         const res = await fetch(
           `${VITE_API_URL}/products/${inventoryId}/${productId}/delete`,
           {
@@ -120,7 +124,7 @@ const useProducts = (inventoryId) => {
           }
         );
 
-        if (res.status === 'error') throw new Error('Failed to delete product');
+        if (!res.ok) throw new Error('Failed to delete product');
 
         setProducts((prev) => prev.filter((prod) => prod.id !== productId));
       } catch (err) {

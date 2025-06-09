@@ -23,10 +23,25 @@ const HomePage = () => {
           </button>
         </>
       ) : (
-        <p className="text-lg">You are no logged in.</p>
+     <div className="w-1/2 bg-[url('/recibo.jpg')] bg-cover bg-center relative">
+  <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+    <h2 className="text-white text-3xl font-bold text-center px-4">
+     Welcome to <span className="text-white-400">Inventive</span>
+    </h2>
+  </div>
+</div>
+
       )}
+      <div className="w-1/2 flex items-center justify-center p-8">
+        <div className="w-full max-w-md">
+        
+     
+        </div>
+      </div>
     </div>
-  );
-};
+  
+      )}
 
 export default HomePage;
+
+
