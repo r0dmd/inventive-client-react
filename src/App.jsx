@@ -12,6 +12,7 @@ import {
   ProfilePage,
   RegisterPage,
   UserAdminPage,
+  ProductsPage,
 } from './pages/index.js';
 
 // ------------------------------------------
@@ -29,6 +30,8 @@ function App() {
           <Route path="/profile" element={<ProfilePage />} />
 
           <Route path="/inventories" element={<InventoriesPage />} />
+          <Route path="/inventories/:inventoryId/products" element={<ProductsPage />} />
+
 
           <Route path="/admin" element={<UserAdminPage />} />
         </Routes>
