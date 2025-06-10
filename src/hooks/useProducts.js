@@ -68,45 +68,44 @@ const useProducts = (inventoryId) => {
     [authToken, inventoryId]
   );
 
-  const updateProduct = useCallback(
-    async (productId, updateData) => {
-      try {
-        setProductsLoading(true);
+ const updateProduct = useCallback(
+  async (productId, updateData) => {
+    try {
+      setProductsLoading(true);
 
-        const res = await fetch(
-          `${VITE_API_URL}/products/${inventoryId}/${productId}`,
-          {
-            method: 'PUT',
-            headers: {
-              Authorization: authToken,
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(updateData),
-          }
-        );
+      const res = await fetch(
+        `${VITE_API_URL}/products/${inventoryId}/${productId}`,
+        {
+          method: 'PUT',
+          headers: {
+            Authorization: authToken,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(updateData), // 👈 Aquí mandas { productName: ... }
+        }
+      );
 
-          const updatedProductResponse = await res.json();
+      const result = await res.json();
 
-          if (updatedProductResponse.status === 'error')
-            throw new Error('Failed to update product');
-
-          const updatedProduct = updatedProductResponse.product;
-
-          setProducts((prev) =>
-            prev.map((prod) => (prod.id === productId ? updatedProduct : prod))
-          );
-
-        return updatedProduct;
-      } catch (err) {
-        console.error('Error updating product:', err);
-        toast.error('Error updating product');
-        throw err;
-      } finally {
-        setProductsLoading(false);
+      if (result.status === 'error') {
+        throw new Error('Failed to update product');
       }
-    },
-    [authToken, inventoryId]
-  );
+
+      // ✅ Como el backend no devuelve el producto actualizado, refrescamos
+      await getProducts();
+
+      return result;
+    } catch (err) {
+      console.error('Error updating product:', err);
+      toast.error('Error updating product');
+      throw err;
+    } finally {
+      setProductsLoading(false);
+    }
+  },
+  [authToken, inventoryId, getProducts]
+);
+
 
   const deleteProduct = useCallback(
     async (productId) => {
