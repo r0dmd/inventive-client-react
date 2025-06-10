@@ -85,7 +85,7 @@ const handleAdd = async () => {
       
 
     try {
-      await updateProduct(productId, { product: editedName });
+      await updateProduct(productId, { productName: editedName });
 
       setEditingId(null);
       setEditedName('');
