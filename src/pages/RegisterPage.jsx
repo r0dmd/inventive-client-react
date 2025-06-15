@@ -40,24 +40,32 @@ const RegisterPage = () => {
   };
 
   return (
-    <main className='flex items-center justify-center min-h-screen bg-primary'>
+   
+       <main className="flex items-center justify-center ">
       <form
         onSubmit={handleSubmit}
-        className='bg-white p-8 rounded shadow-md space-y-4 w-full max-w-md'
+        className="bg-black/50 p-8 rounded shadow-md space-y-4 w-full max-w-md"
       >
-        <h2 className='text-2xl font-bold mb-4'>Register Form</h2>
+        <h2 className="text-4xl text-white text-center font-bold mb-4">Create Account</h2>
+
+          <div className=" text-white flex flex-col space-y-2 relative">
+          <label htmlFor="username" className="text-m font-medium">
+            Username
+          </label>
 
         <input
-          type='text'
-          placeholder='username'
+          type="text"
+          placeholder="username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
-          className='w-full p-2 border rounded'
+          className="w-full p-2 border rounded"
         />
 
-                <div className="flex flex-col space-y-2 relative">
-          <label htmlFor="password" className="text-sm font-medium">Password</label>
+        <div className="flex flex-col space-y-2 relative">
+          <label htmlFor="password" className="text-m font-medium">
+            Password
+          </label>
           <input
             id="password"
             type={isVisible ? 'text' : 'password'}
@@ -73,21 +81,14 @@ const RegisterPage = () => {
             {isVisible ? <FaEyeSlash /> : <FaEye />}
           </span>
         </div>
-
+        </div>
 
         <button
-          type='submit'
-          className='w-full bg-green-600 hover:bg-green-700 text-white p-2 rounded'
+          type="submit"
+          className="w-full bg-orange-500 hover:bg-orange-700 text-white p-2 rounded"
         >
-          Create Account
+          Create
         </button>
-
-        <p className='text-center text-sm'>
-          Already have an account with us?{' '}
-          <Link to='/login' className='text-blue-600 hover:underline'>
-            Login here!
-          </Link>
-        </p>
       </form>
     </main>
   );

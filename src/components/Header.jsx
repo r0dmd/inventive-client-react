@@ -11,7 +11,7 @@ const Header = () => {
 
   const handleLogout = () => {
     authLogout();
-    navigate('/'); // 👈 redirige al home
+    navigate('/'); 
   };
 
   return (

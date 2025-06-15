@@ -48,12 +48,17 @@ const LoginPage = () => {
   };
 
   return (
-    <main className="flex items-center justify-center min-h-screen bg-primary">
+    <main className="flex items-center justify-center ">
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-8 rounded shadow-md space-y-4 w-full max-w-md"
+        className="bg-white/50 p-8 rounded shadow-md space-y-4 w-full max-w-md"
       >
-        <h2 className="text-2xl font-bold mb-4">Iniciar sesión</h2>
+        <h2 className="text-4xl text-center font-bold mb-4">Login</h2>
+
+          <div className="flex flex-col space-y-2 relative">
+          <label htmlFor="username" className="text-m font-medium">
+            Username
+          </label>
 
         <input
           type="text"
@@ -65,7 +70,7 @@ const LoginPage = () => {
         />
 
         <div className="flex flex-col space-y-2 relative">
-          <label htmlFor="password" className="text-sm font-medium">
+          <label htmlFor="password" className="text-m font-medium">
             Password
           </label>
           <input
@@ -83,10 +88,11 @@ const LoginPage = () => {
             {isVisible ? <FaEyeSlash /> : <FaEye />}
           </span>
         </div>
+        </div>
 
         <button
           type="submit"
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white p-2 rounded"
+          className="w-full bg-orange-500 hover:bg-orange-700 text-white p-2 rounded"
         >
           Log In
         </button>
