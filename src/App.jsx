@@ -13,6 +13,7 @@ import {
   RegisterPage,
   UserAdminPage,
   ProductsPage,
+  CreateInventoryPage,
 } from './pages/index.js';
 
 // ------------------------------------------
@@ -31,6 +32,7 @@ function App() {
 
           <Route path="/inventories" element={<InventoriesPage />} />
           <Route path="/inventories/:inventoryId/products" element={<ProductsPage />} />
+          <Route path="/create-inventory" element={<CreateInventoryPage />} />
 
 
           <Route path="/admin" element={<UserAdminPage />} />

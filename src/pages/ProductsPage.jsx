@@ -29,7 +29,7 @@ const ProductsPage = () => {
     } else if (authUser) {
       getProducts();
     }
-  }, [authUser, authUserLoading, getProducts, navigate]);
+  }, [authUser, authUserLoading, getProducts, navigate, inventoryId]);
 
 const handleAdd = async () => {
   const { value: formValues } = await Swal.fire({

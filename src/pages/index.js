@@ -6,5 +6,6 @@ import RegisterPage from './RegisterPage.jsx';
 import ProfilePage from './ProfilePage.jsx';
 import UserAdminPage from './UserAdminPage.jsx';
 import ProductsPage from './ProductsPage.jsx';
+import CreateInventoryPage from './CreateInventoryPage.jsx';
 
-export { LoginPage, HomePage, InventoriesPage, NotFoundPage, RegisterPage, ProfilePage, UserAdminPage, ProductsPage };
+export { LoginPage, HomePage, InventoriesPage, NotFoundPage, RegisterPage, ProfilePage, UserAdminPage, ProductsPage, CreateInventoryPage };
