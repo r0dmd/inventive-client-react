@@ -6,11 +6,11 @@ import {
 	//AboutPage,
 	HomePage,
 	InventoriesPage,
-	LoginPage,
+	//LoginPage,
 	NotFoundPage,
 	//PrivacyPolicyPage,
 	ProfilePage,
-	RegisterPage,
+	//RegisterPage,
 	UserAdminPage,
 	ProductsPage,
 	CreateInventoryPage,
@@ -25,8 +25,8 @@ function App() {
 			<main className="min-h-screen bg-primary">
 				<Routes>
 					<Route path="/" element={<HomePage />} />
-					<Route path="/login" element={<LoginPage />} />
-					<Route path="/register" element={<RegisterPage />} />
+					{/* <Route path="/login" element={<LoginPage />} /> */}
+					{/* <Route path="/register" element={<RegisterPage />} /> */}
 					<Route path="*" element={<NotFoundPage />} />
 					<Route path="/profile" element={<ProfilePage />} />
 
