@@ -4,7 +4,6 @@ import AuthContext from '../context/AuthContext';
 
 const { VITE_APP_NAME } = import.meta.env;
 
-// ------------------------------------------
 const Header = () => {
   const { authUser, authLogout } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -15,29 +14,31 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-stone-700 py-4 px-6 flex items-center justify-between mb-4">
+    <header className="mr-3 bg-gradient-to-br from-black via-gray-900 to-gray-800 text-white p-6 flex items-center justify-between">
       <h1 className="text-2xl font-bold text-white">{VITE_APP_NAME}</h1>
       <nav>
         <ul className="flex gap-4 text-gray-700">
           <li>
             <NavLink
-              to="/"
-              className={({ isActive }) =>
-                `text-white hover:text-blue-500 ${isActive ? 'font-bold' : ''}`
-              }
-            >
-              Home
-            </NavLink>
+  to="/"
+  className={({ isActive }) =>
+    `hover:text-orange-400 hover:bg-gradient-to-br hover:from-black hover:via-gray-900 hover:to-gray-800 px-2 py-1 rounded ${
+      isActive ? 'font-bold text-white' : 'text-white'
+    }`
+  }
+>
+  Home
+</NavLink>
           </li>
 
           {!authUser && (
             <>
               <li>
                 <NavLink
-                  to="/register"
+                  to="/?mode=register"
                   className={({ isActive }) =>
-                    `text-white hover:text-blue-500 ${
-                      isActive ? 'font-bold' : ''
+                    `hover:text-orange-400 hover:bg-gradient-to-br hover:from-black hover:via-gray-900 hover:to-gray-800 px-2 py-1 rounded ${
+                      isActive ? 'font-bold text-white' : 'text-white'
                     }`
                   }
                 >
@@ -46,10 +47,10 @@ const Header = () => {
               </li>
               <li>
                 <NavLink
-                  to="/login"
+                  to="/?mode=login"
                   className={({ isActive }) =>
-                    `text-white hover:text-blue-500 ${
-                      isActive ? 'font-bold' : ''
+                    `hover:text-orange-400 hover:bg-gradient-to-br hover:from-black hover:via-gray-900 hover:to-gray-800 px-2 py-1 rounded ${
+                      isActive ? 'font-bold text-white' : 'text-white'
                     }`
                   }
                 >
@@ -61,17 +62,16 @@ const Header = () => {
 
           {authUser && (
             <>
-              <li className="text-white font-medium">
-                Hello,{' '}
-                <span className="text-blue-300">{authUser.username}</span>
-              </li>
+              {/* <li className="text-white font-medium">
+                <span className="text-orange-400">{authUser.username}</span>
+              </li> */}
 
               <li>
                 <NavLink
                   to="/profile"
                   className={({ isActive }) =>
-                    `text-white hover:text-blue-500 ${
-                      isActive ? 'font-bold' : ''
+                    `hover:text-orange-400 hover:bg-gradient-to-br hover:from-black hover:via-gray-900 hover:to-gray-800 px-2 py-1 rounded ${
+                      isActive ? 'font-bold text-orange-400' : 'text-white'
                     }`
                   }
                 >
@@ -83,8 +83,8 @@ const Header = () => {
                 <NavLink
                   to="/inventories"
                   className={({ isActive }) =>
-                    `text-white hover:text-blue-500 ${
-                      isActive ? 'font-bold' : ''
+                    `hover:text-orange-400 hover:bg-gradient-to-br hover:from-black hover:via-gray-900 hover:to-gray-800 px-2 py-1 rounded ${
+                      isActive ? 'font-bold text-orange-400' : 'text-white'
                     }`
                   }
                 >
@@ -97,9 +97,7 @@ const Header = () => {
                   <NavLink
                     to="/admin"
                     className={({ isActive }) =>
-                      `text-white hover:text-blue-500 ${
-                        isActive ? 'font-bold' : ''
-                      }`
+                      `text-white hover:text-blue-500 ${isActive ? 'font-bold' : ''}`
                     }
                   >
                     User management
@@ -110,7 +108,7 @@ const Header = () => {
               <li>
                 <button
                   onClick={handleLogout}
-                  className="text-white hover:text-red-500 font-semibold"
+                  className="text-white hover:text-orange-400 font-semibold"
                 >
                   Logout
                 </button>

@@ -22,7 +22,7 @@ const LoggedInHome = ({ authUser, authLogout }) => {
           className="bg-white bg-opacity-10 backdrop-blur-md border border-white border-opacity-20 p-10 rounded-2xl shadow-lg flex flex-col items-center justify-center cursor-pointer hover:scale-105 hover:bg-opacity-20 transition-all duration-300"
         >
           <PlusCircleIcon className="h-24 w-24 text-orange-400 mb-6 drop-shadow" />
-          <p className="text-2xl text-black font-semibold">Crear Inventario</p>
+          <p className="text-2xl text-black font-semibold">Create New Inventory</p>
         </div>
 
         {/* Ver Inventarios */}
@@ -31,7 +31,7 @@ const LoggedInHome = ({ authUser, authLogout }) => {
           className="bg-white bg-opacity-10 backdrop-blur-md border border-white border-opacity-20 p-10 rounded-2xl shadow-lg flex flex-col items-center justify-center cursor-pointer hover:scale-105 hover:bg-opacity-20 transition-all duration-300"
         >
           <FolderOpenIcon className="h-24 w-24 text-orange-400 mb-6 drop-shadow" />
-          <p className="text-2xl text-black font-semibold">Ver Inventarios</p>
+          <p className="text-2xl text-black font-semibold">Your Inventories</p>
         </div>
       </div>
 

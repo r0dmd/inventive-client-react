@@ -51,7 +51,7 @@ const LoginPage = () => {
     <main className="flex items-center justify-center ">
       <form
         onSubmit={handleSubmit}
-        className="bg-white/50 p-8 rounded shadow-md space-y-4 w-full max-w-md"
+        className="bg-black/50 p-8 rounded shadow-md space-y-4 w-full max-w-md"
       >
         <h2 className="text-4xl text-center font-bold mb-4">Login</h2>
 
