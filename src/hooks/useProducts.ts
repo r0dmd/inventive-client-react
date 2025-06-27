@@ -8,6 +8,10 @@ interface Product {
 	id: number | string;
 	productName: string;
 	quantity: number;
+	description?: string;   
+  	createdAt?: string;     
+ 	updatedAt?: string; 
+
 }
 
 // TODO: MOVER TODOS LOS TIPOS E INTERFACES A UN ARCHIVO APARTE. ESTE DE APIRESPONSE SE REPITE EN OTROS HOOKS Y NO DEBERÍA

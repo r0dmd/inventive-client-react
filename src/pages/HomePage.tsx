@@ -1,10 +1,10 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import AuthContext from "../context/AuthContext";
 import useDocumentTitle from "../hooks/useDocumentTitle";
 import LoginPage from "./LoginPage";
 import RegisterPage from "./RegisterPage";
 import LoggedInHome from "./LoggedInHome";
+import { useAuth } from "../context/useAuth";
 import {
 	CalculatorIcon,
 	NewspaperIcon,
@@ -14,7 +14,7 @@ import {
 const HomePage = () => {
 	useDocumentTitle("Home");
 
-	const { authUser, authLogout, authUserLoading } = useContext(AuthContext);
+	const { authUser, authLogout, authUserLoading } = useAuth();
 	const [searchParams] = useSearchParams();
 	const navigate = useNavigate();
 	const mode = searchParams.get("mode"); // 'login' o 'register'
@@ -25,7 +25,7 @@ const HomePage = () => {
 		setIsRegister(mode === "register");
 	}, [mode]);
 
-	const handleToggleMode = (newMode) => {
+	const handleToggleMode = (newMode: string) => {
 		navigate(`/?mode=${newMode}`);
 	};
 

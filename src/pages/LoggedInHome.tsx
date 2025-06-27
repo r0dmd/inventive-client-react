@@ -1,8 +1,15 @@
 import { useNavigate } from "react-router-dom";
 import { PlusCircleIcon, FolderOpenIcon } from "@heroicons/react/24/solid";
+import { useAuth } from "../context/useAuth";
 
-const LoggedInHome = ({ authUser, authLogout }) => {
+const LoggedInHome =() => {
+	const { authUser, authLogout } = useAuth();
 	const navigate = useNavigate();
+
+	if (!authUser) {
+
+    return <p>Loading or please login...</p>;
+  }
 
 	return (
 		<div className="min-h-screen w-screen flex flex-col items-center justify-center bg-gradient-to-br from-black via-gray-900 to-gray-800 text-white p-6">

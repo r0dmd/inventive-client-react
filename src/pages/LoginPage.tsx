@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDocumentTitle } from "../hooks/index.js";
 import AuthContext from "../context/AuthContext.js";
+import { useAuth } from "../context/useAuth.js";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useTogglePasswordVisibility } from "../hooks";
 
@@ -13,7 +14,7 @@ const { VITE_API_URL } = import.meta.env;
 const LoginPage = () => {
 	useDocumentTitle("Login");
 
-	const { authLogin } = useContext(AuthContext);
+	const { authLogin, authUser } = useAuth();
 	const navigate = useNavigate();
 
 	const [username, setUsername] = useState("");
@@ -43,7 +44,9 @@ const LoginPage = () => {
 			toast.success("Sesión iniciada correctamente");
 			navigate("/");
 		} catch (err) {
-			toast.error(err.message);
+			const errorMessage =
+				err instanceof Error ? err.message : "Ocurrió un error inesperado";
+			toast.error(errorMessage);
 		}
 	};
 

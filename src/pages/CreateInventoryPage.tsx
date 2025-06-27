@@ -1,16 +1,17 @@
-import { useState, useContext } from "react";
+import { useState, type FormEvent } from "react";
 import { useInventories } from "../hooks/index.js";
 import { useNavigate } from "react-router-dom";
-import AuthContext from "../context/AuthContext.js";
 import { toast } from "sonner";
+import { useAuth } from "../context/useAuth";
 
 const CreateInventoryPage = () => {
-	const [inventoryName, setInventoryName] = useState("");
+	const [inventoryName, setInventoryName] = useState<string>("");
+
 	const { addInventory, getInventories } = useInventories();
 	const navigate = useNavigate();
-	const { authUser } = useContext(AuthContext);
+	const { authUser } = useAuth();
 
-	const handleSubmit = async (e) => {
+	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		if (!inventoryName.trim()) {
 			toast.error("Inventory name is required");
@@ -24,8 +25,12 @@ const CreateInventoryPage = () => {
 			await getInventories();
 			toast.success("Inventory created successfully");
 			navigate("/inventories");
-		} catch (err) {
-			toast.error(err.message);
+		} catch (err: unknown) {
+			if (err instanceof Error) {
+				toast.error(err.message);
+			} else {
+				toast.error("An unexpected error occurred");
+			}
 		}
 	};
 
