@@ -1,33 +1,48 @@
-import { useCallback, useContext, useState } from "react";
-import AuthContext from "../context/AuthContext.js";
+import { useCallback, useState } from "react";
 import { toast } from "sonner";
+import { useAuth } from "../context/useAuth.js";
 
 const { VITE_API_URL } = import.meta.env;
 
-// ------------------------------------------
-const useProducts = (inventoryId) => {
-	const { authToken } = useContext(AuthContext);
+interface Product {
+	id: number | string;
+	productName: string;
+	quantity: number;
+}
 
-	const [products, setProducts] = useState([]);
+// TODO: MOVER TODOS LOS TIPOS E INTERFACES A UN ARCHIVO APARTE. ESTE DE APIRESPONSE SE REPITE EN OTROS HOOKS Y NO DEBERÍA
+interface ApiResponse<T> {
+	status: string;
+	products?: T[];
+}
+
+// ---------------------
+const useProducts = (inventoryId: string | number) => {
+	const { authToken } = useAuth();
+
+	const [products, setProducts] = useState<Product[]>([]);
 	const [productsLoading, setProductsLoading] = useState(false);
 
-	const getProducts = useCallback(async () => {
+	const getProducts = useCallback(async (): Promise<Product[]> => {
 		try {
 			setProductsLoading(true);
 
+			const headers: Record<string, string> = {};
+			if (authToken) {
+				headers.Authorization = authToken;
+			}
+
 			const res = await fetch(`${VITE_API_URL}/products/${inventoryId}`, {
 				method: "GET",
-				headers: {
-					Authorization: authToken,
-				},
+				headers,
 			});
 
-			const data = await res.json();
+			const data: ApiResponse<Product> = await res.json();
 
 			if (data.status === "error") throw new Error("Failed to fetch products");
 
-			setProducts(data.products);
-			return data;
+			setProducts(data.products || []);
+			return data.products || [];
 		} catch (err) {
 			console.error("Error fetching products:", err);
 			toast.error("Error fetching products");
@@ -38,25 +53,32 @@ const useProducts = (inventoryId) => {
 	}, [authToken, inventoryId]);
 
 	const addProduct = useCallback(
-		async (productData) => {
+		async (productData: Omit<Product, "id">): Promise<Product> => {
 			try {
 				setProductsLoading(true);
 
+				const headers: Record<string, string> = {
+					"Content-Type": "application/json",
+				};
+				if (authToken) {
+					headers.Authorization = authToken;
+				}
+
 				const res = await fetch(`${VITE_API_URL}/products/${inventoryId}/new`, {
 					method: "POST",
-					headers: {
-						Authorization: authToken,
-						"Content-Type": "application/json",
-					},
+					headers,
 					body: JSON.stringify(productData),
 				});
 
-				const newProduct = await res.json();
+				const newProduct: ApiResponse<Product> = await res.json();
 				if (newProduct.status === "error")
 					throw new Error("Failed to add product");
 
-				setProducts((prev) => [...prev, newProduct]);
-				return newProduct;
+				setProducts((prev) => [
+					...prev,
+					newProduct.products?.[0] || ({} as Product),
+				]);
+				return newProduct.products?.[0] || ({} as Product);
 			} catch (err) {
 				console.error("Error adding product:", err);
 				toast.error("Error adding product");
@@ -69,19 +91,23 @@ const useProducts = (inventoryId) => {
 	);
 
 	const updateProduct = useCallback(
-		async (productId, updateData) => {
+		async (productId: number | string, updateData: Partial<Product>) => {
 			try {
 				setProductsLoading(true);
+
+				const headers: Record<string, string> = {
+					"Content-Type": "application/json",
+				};
+				if (authToken) {
+					headers.Authorization = authToken;
+				}
 
 				const res = await fetch(
 					`${VITE_API_URL}/products/${inventoryId}/${productId}`,
 					{
 						method: "PUT",
-						headers: {
-							Authorization: authToken,
-							"Content-Type": "application/json",
-						},
-						body: JSON.stringify(updateData), // 👈 Aquí mandas { productName: ... }
+						headers,
+						body: JSON.stringify(updateData),
 					},
 				);
 
@@ -91,7 +117,7 @@ const useProducts = (inventoryId) => {
 					throw new Error("Failed to update product");
 				}
 
-				// ✅ Como el backend no devuelve el producto actualizado, refrescamos
+				// Refresh products list since backend doesn't return updated product
 				await getProducts();
 
 				return result;
@@ -107,17 +133,20 @@ const useProducts = (inventoryId) => {
 	);
 
 	const deleteProduct = useCallback(
-		async (productId) => {
+		async (productId: number | string) => {
 			try {
 				setProductsLoading(true);
+
+				const headers: Record<string, string> = {};
+				if (authToken) {
+					headers.Authorization = authToken;
+				}
 
 				const res = await fetch(
 					`${VITE_API_URL}/products/${inventoryId}/${productId}/delete`,
 					{
 						method: "DELETE",
-						headers: {
-							Authorization: authToken,
-						},
+						headers,
 					},
 				);
 

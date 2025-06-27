@@ -1,11 +1,11 @@
 import { NavLink, useNavigate } from "react-router-dom";
-import { useContext } from "react";
-import AuthContext from "../context/AuthContext";
+import { useAuth } from "../context/useAuth";
 
 const { VITE_APP_NAME } = import.meta.env;
 
+// -------------------------
 const Header = () => {
-	const { authUser, authLogout } = useContext(AuthContext);
+	const { authUser, authLogout } = useAuth();
 	const navigate = useNavigate();
 
 	const handleLogout = () => {
@@ -14,7 +14,7 @@ const Header = () => {
 	};
 
 	return (
-		<header className="mr-3 bg-gradient-to-br from-black via-gray-900 to-gray-800 text-white p-6 flex items-center justify-between">
+		<header className="flex justify-between items-center p-6 mr-3 text-white bg-gradient-to-br from-black via-gray-900 to-gray-800">
 			<h1 className="text-2xl font-bold text-white">{VITE_APP_NAME}</h1>
 			<nav>
 				<ul className="flex gap-4 text-gray-700">
@@ -62,7 +62,7 @@ const Header = () => {
 
 					{authUser && (
 						<>
-							{/* <li className="text-white font-medium">
+							{/* <li className="font-medium text-white">
                 <span className="text-orange-400">{authUser.username}</span>
               </li> */}
 
@@ -107,8 +107,9 @@ const Header = () => {
 
 							<li>
 								<button
+									type="button"
 									onClick={handleLogout}
-									className="text-white hover:text-orange-400 font-semibold"
+									className="font-semibold text-white hover:text-orange-400"
 								>
 									Logout
 								</button>
