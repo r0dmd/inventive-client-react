@@ -1,25 +1,37 @@
-import { useCallback, useContext, useState } from "react";
-import AuthContext from "../context/AuthContext";
+import { useCallback, useState } from "react";
 import { toast } from "sonner";
-
+import { useAuth } from "../context/useAuth";
 const { VITE_API_URL } = import.meta.env;
 
-const useInventories = () => {
-	const { authToken } = useContext(AuthContext);
+export type Inventory = {
+	id: string;
+	name: string;
+	description?: string;
+};
 
-	const [inventories, setInventories] = useState([]);
+type ApiResponse<T> = {
+	status: "success" | "error";
+	message?: string;
+	data: T;
+};
+
+// --------------------------------
+const useInventories = () => {
+	const { authToken } = useAuth();
+	const [inventories, setInventories] = useState<Inventory[]>([]);
 	const [inventoriesLoading, setInventoriesLoading] = useState(false);
 
-	const getInventories = useCallback(async () => {
+	const getInventories = useCallback(async (): Promise<Inventory[]> => {
 		try {
 			setInventoriesLoading(true);
 
 			const res = await fetch(`${VITE_API_URL}/inventories`, {
 				method: "GET",
-				headers: { Authorization: authToken },
+				headers: { Authorization: authToken ?? "" },
 			});
 
-			const body = await res.json();
+			const body: ApiResponse<{ inventories: Inventory[] }> = await res.json();
+
 			if (body.status === "error") throw new Error(body.message);
 
 			setInventories(body.data.inventories);
@@ -34,31 +46,25 @@ const useInventories = () => {
 	}, [authToken]);
 
 	const addInventory = useCallback(
-		async (inventoryData) => {
+		async (inventoryData: FormData): Promise<Inventory> => {
 			try {
 				setInventoriesLoading(true);
 
 				const res = await fetch(`${VITE_API_URL}/inventories/new`, {
 					method: "POST",
-					headers: {
-						Authorization: authToken,
-						// Don't set Content-Type here because inventoryData is FormData
-					},
+					headers: { Authorization: authToken ?? "" },
 					body: inventoryData,
 				});
 
-				const body = await res.json();
+				const body: ApiResponse<Inventory> = await res.json();
 
 				if (!res.ok || body.status === "error") {
-					throw new Error(body.message || "Failed to add inventory");
+					throw new Error(body.message ?? "Failed to add inventory");
 				}
 
-				// Add the new inventory item to state
-				// Assuming backend returns new inventory info in body.data or similar
-				// Adjust if your backend response differs
-				setInventories((prev) => [...prev, body.data || {}]);
+				setInventories((prev) => [...prev, body.data]);
 
-				return body;
+				return body.data;
 			} catch (err) {
 				console.error("Error adding inventory:", err);
 				toast.error("Error adding inventory");
@@ -71,7 +77,10 @@ const useInventories = () => {
 	);
 
 	const updateInventory = useCallback(
-		async (inventoryId, updateData) => {
+		async (
+			inventoryId: string,
+			updateData: Partial<Inventory>,
+		): Promise<Inventory> => {
 			try {
 				setInventoriesLoading(true);
 
@@ -81,26 +90,25 @@ const useInventories = () => {
 						method: "PUT",
 						headers: {
 							"Content-Type": "application/json",
-							Authorization: authToken,
+							Authorization: authToken ?? "",
 						},
 						body: JSON.stringify(updateData),
 					},
 				);
 
-				const body = await res.json();
+				const body: ApiResponse<Inventory> = await res.json();
 
 				if (!res.ok || body.status === "error") {
-					throw new Error(body.message || "Failed to update inventory");
+					throw new Error(body.message ?? "Failed to update inventory");
 				}
 
-				// Update the local state with updated inventory
 				setInventories((prev) =>
 					prev.map((inv) =>
 						inv.id === inventoryId ? { ...inv, ...body.data } : inv,
 					),
 				);
 
-				return body;
+				return body.data;
 			} catch (err) {
 				toast.error("Error updating inventory");
 				throw err;
@@ -112,7 +120,7 @@ const useInventories = () => {
 	);
 
 	const deleteInventory = useCallback(
-		async (inventoryId) => {
+		async (inventoryId: string): Promise<void> => {
 			try {
 				setInventoriesLoading(true);
 
@@ -120,16 +128,14 @@ const useInventories = () => {
 					`${VITE_API_URL}/inventories/${inventoryId}/delete`,
 					{
 						method: "DELETE",
-						headers: {
-							Authorization: authToken,
-						},
+						headers: { Authorization: authToken ?? "" },
 					},
 				);
 
-				const body = await res.json();
+				const body: ApiResponse<null> = await res.json();
 
 				if (!res.ok || body.status === "error") {
-					throw new Error(body.message || "Failed to delete inventory");
+					throw new Error(body.message ?? "Failed to delete inventory");
 				}
 
 				setInventories((prev) => prev.filter((inv) => inv.id !== inventoryId));

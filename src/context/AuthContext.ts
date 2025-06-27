@@ -1,10 +1,14 @@
+// NOTE:
+// AuthContext is the "mailbox"
+// AuthProvider is the "mailman" who puts mail (values/functions) into the mailbox
+// useContext(AuthContext) is how you "open the mailbox" and retrieve the contents
+
 import { createContext } from "react";
 
 export type AuthUser = {
 	id: string;
 	name: string;
-	email: string;
-	// Add more user fields if needed
+	role: string;
 };
 
 export type AuthContextType = {
@@ -16,9 +20,7 @@ export type AuthContextType = {
 	authUpdateUserState: (userData: Partial<AuthUser>) => void;
 };
 
-// NOTE:
-// AuthContext is the "mailbox"
-// AuthProvider is the "mailman" who puts mail (values/functions) into the mailbox
-// useContext(AuthContext) is how you "open the mailbox" and retrieve the contents
-const AuthContext = createContext<AuthContextType | null>(null);
+// We use `undefined` to enable safe access via custom hook
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
 export default AuthContext;
