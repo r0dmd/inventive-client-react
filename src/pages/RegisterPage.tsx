@@ -35,7 +35,11 @@ const RegisterPage = () => {
 			toast.success("Account created successfully. Please log in.");
 			navigate("/login");
 		} catch (err) {
-			toast.error(err.message || "Failed to create account");
+			const errorMessage =
+				err && typeof err === "object" && "message" in err
+					? (err as { message: string }).message
+					: "Failed to create account";
+			toast.error(errorMessage);
 		}
 	};
 
