@@ -2,14 +2,12 @@ import { useState, type FormEvent } from "react";
 import { useInventories } from "../hooks/index.js";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { useAuth } from "../context/useAuth";
 
 const CreateInventoryPage = () => {
 	const [inventoryName, setInventoryName] = useState<string>("");
 
 	const { addInventory, getInventories } = useInventories();
 	const navigate = useNavigate();
-	const { authUser } = useAuth();
 
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();

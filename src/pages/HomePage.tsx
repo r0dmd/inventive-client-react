@@ -64,6 +64,7 @@ const HomePage = () => {
 									<p className="mt-4 font-bold text-center text-black text-m">
 										Already have an account?
 										<button
+											type="button"
 											onClick={() => handleToggleMode("login")}
 											className="ml-1 text-orange-400 underline"
 										>
@@ -74,6 +75,7 @@ const HomePage = () => {
 									<p className="mt-4 font-bold text-center text-black text-m">
 										Don't have an account?
 										<button
+											type="button"
 											onClick={() => handleToggleMode("register")}
 											className="ml-1 text-orange-400 underline"
 										>
