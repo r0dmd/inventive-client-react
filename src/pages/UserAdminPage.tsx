@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import type React from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/useAuth";
 import { toast } from "sonner";
@@ -14,6 +15,7 @@ interface User {
 	modifiedAt?: string | null;
 }
 
+// ----------------------------------------
 const UserAdminPage: React.FC = () => {
 	const { authToken, authUser, authUserLoading } = useAuth();
 	const [users, setUsers] = useState<User[]>([]);
@@ -43,8 +45,9 @@ const UserAdminPage: React.FC = () => {
 				if (body.status === "error") throw new Error(body.message);
 
 				setUsers(body.data.users);
-			} catch (err: any) {
-				toast.error(`Error fetching users: ${err.message || err}`);
+			} catch (err: unknown) {
+				if (err instanceof Error)
+					toast.error(`Error fetching users: ${err.message || err}`);
 			} finally {
 				setLoadingUsers(false);
 			}
@@ -84,8 +87,9 @@ const UserAdminPage: React.FC = () => {
 
 			toast.success("User deactivated");
 			setUsers((prevUsers) => prevUsers.filter((u) => u.id !== userId));
-		} catch (err: any) {
-			toast.error(`Failed to deactivate user: ${err.message || err}`);
+		} catch (err: unknown) {
+			if (err instanceof Error)
+				toast.error(`Failed to deactivate user: ${err.message || err}`);
 		}
 	};
 
@@ -119,6 +123,7 @@ const UserAdminPage: React.FC = () => {
 										<p>Admin users can't be deactivated</p>
 									) : (
 										<button
+											type="button"
 											onClick={() => handleDeactivate(u.id, u.username)}
 											className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
 										>

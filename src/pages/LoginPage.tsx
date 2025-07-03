@@ -1,7 +1,6 @@
-import { useState, useContext } from "react";
+import { useId, useState, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDocumentTitle } from "../hooks/index.js";
-import AuthContext from "../context/AuthContext.js";
 import { useAuth } from "../context/useAuth.js";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useTogglePasswordVisibility } from "../hooks";
@@ -14,14 +13,15 @@ const { VITE_API_URL } = import.meta.env;
 const LoginPage = () => {
 	useDocumentTitle("Login");
 
-	const { authLogin, authUser } = useAuth();
+	const { authLogin } = useAuth();
 	const navigate = useNavigate();
 
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const { isVisible, toggleVisibility } = useTogglePasswordVisibility();
+	const passwordId = useId();
 
-	const handleSubmit = async (e) => {
+	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
 		try {
@@ -77,19 +77,20 @@ const LoginPage = () => {
 							Password
 						</label>
 						<input
-							id="password"
+							id={passwordId}
 							type={isVisible ? "text" : "password"}
 							required
 							value={password}
 							onChange={(e) => setPassword(e.target.value)}
 							className="w-full p-2 border rounded pr-10"
 						/>
-						<span
+						<button
+							type="button"
 							onClick={toggleVisibility}
 							className="absolute right-3 top-[38px] cursor-pointer text-gray-600"
 						>
 							{isVisible ? <FaEyeSlash /> : <FaEye />}
-						</span>
+						</button>
 					</div>
 				</div>
 

@@ -1,24 +1,28 @@
-import { useContext, useState, useEffect } from "react";
+import { useState, useEffect, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import AuthContext from "../context/AuthContext";
 import { toast } from "sonner";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useTogglePasswordVisibility } from "../hooks";
+import { useAuth } from "../context/useAuth";
 
 const { VITE_API_URL } = import.meta.env;
 
 // ----------------------------------------------
 
+type VisibilityHook = {
+	isVisible: boolean;
+	toggleVisibility: () => void;
+};
+
 const ProfilePage = () => {
-	const { authUser, authToken, authUpdateUserState } = useContext(AuthContext);
+	const { authUser, authToken, authUpdateUserState } = useAuth();
 	const navigate = useNavigate();
 
-	const [username, setUsername] = useState(authUser?.username || "");
+	const [username, setUsername] = useState(authUser?.name || "");
 	const [currentPassword, setCurrentPassword] = useState("");
 	const [newPassword, setNewPassword] = useState("");
 	const [confirmNewPassword, setConfirmNewPassword] = useState("");
 
-	// Hooks para cada campo de contraseña
 	const currentPassToggle = useTogglePasswordVisibility();
 	const newPassToggle = useTogglePasswordVisibility();
 	const confirmPassToggle = useTogglePasswordVisibility();
@@ -32,10 +36,10 @@ const ProfilePage = () => {
 
 	if (!authToken) return null;
 
-	const handleUsernameSubmit = async (e) => {
+	const handleUsernameSubmit = async (e: FormEvent) => {
 		e.preventDefault();
 
-		if (username === authUser.username) {
+		if (username === authUser?.name) {
 			toast("No changes detected.");
 			return;
 		}
@@ -58,13 +62,15 @@ const ProfilePage = () => {
 			if (body.status === "error") throw new Error(body.message);
 
 			toast.success("Username updated successfully.");
-			authUpdateUserState({ username });
-		} catch (err) {
-			toast.error(err.message);
+
+			// ✅ CORRECT PROPERTY NAME: "name"
+			authUpdateUserState({ name: username });
+		} catch (err: unknown) {
+			if (err instanceof Error) toast.error(err.message);
 		}
 	};
 
-	const handlePasswordChange = async (e) => {
+	const handlePasswordChange = async (e: FormEvent) => {
 		e.preventDefault();
 
 		if (newPassword !== confirmNewPassword) {
@@ -93,12 +99,18 @@ const ProfilePage = () => {
 			setCurrentPassword("");
 			setNewPassword("");
 			setConfirmNewPassword("");
-		} catch (err) {
-			toast.error(err.message);
+		} catch (err: unknown) {
+			if (err instanceof Error) toast.error(err.message);
 		}
 	};
 
-	const renderPasswordField = (label, value, setValue, visibilityHook, id) => (
+	const renderPasswordField = (
+		label: string,
+		value: string,
+		setValue: React.Dispatch<React.SetStateAction<string>>,
+		visibilityHook: VisibilityHook,
+		id: string,
+	) => (
 		<div className="flex flex-col space-y-2 relative">
 			<label htmlFor={id} className="text-sm font-medium">
 				{label}
@@ -111,12 +123,14 @@ const ProfilePage = () => {
 				required
 				className="w-full p-2 border rounded pr-10"
 			/>
-			<span
+			<button
+				type="button"
+				aria-label="Toggle password visibility"
 				onClick={visibilityHook.toggleVisibility}
 				className="absolute right-3 top-9 cursor-pointer text-gray-600"
 			>
 				{visibilityHook.isVisible ? <FaEyeSlash /> : <FaEye />}
-			</span>
+			</button>
 		</div>
 	);
 
