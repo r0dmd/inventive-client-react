@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useId, useState, type FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useTogglePasswordVisibility } from "../hooks";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
@@ -11,10 +11,11 @@ const RegisterPage = () => {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const { isVisible, toggleVisibility } = useTogglePasswordVisibility();
+	const passwordId = useId();
 
 	const navigate = useNavigate();
 
-	const handleSubmit = async (e) => {
+	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
 
 		try {
@@ -72,19 +73,20 @@ const RegisterPage = () => {
 							Password
 						</label>
 						<input
-							id="password"
+							id={passwordId}
 							type={isVisible ? "text" : "password"}
 							required
 							value={password}
 							onChange={(e) => setPassword(e.target.value)}
 							className="w-full p-2 border rounded pr-10"
 						/>
-						<span
+						<button
+							type="button"
 							onClick={toggleVisibility}
 							className="absolute right-3 top-[38px] cursor-pointer text-gray-600"
 						>
 							{isVisible ? <FaEyeSlash /> : <FaEye />}
-						</span>
+						</button>
 					</div>
 				</div>
 

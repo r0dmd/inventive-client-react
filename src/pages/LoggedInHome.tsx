@@ -9,7 +9,7 @@ interface LoggedInHomeProps {
 
 const LoggedInHome: React.FC<LoggedInHomeProps> = ({
 	authUser,
-	authLogout,
+	//authLogout,
 }) => {
 	const navigate = useNavigate();
 
