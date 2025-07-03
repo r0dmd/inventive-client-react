@@ -1,13 +1,11 @@
 import { useState, useEffect, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaUserEdit, FaKey } from "react-icons/fa";
 import { useTogglePasswordVisibility } from "../hooks";
 import { useAuth } from "../context/useAuth";
 
 const { VITE_API_URL } = import.meta.env;
-
-// ----------------------------------------------
 
 type VisibilityHook = {
 	isVisible: boolean;
@@ -18,7 +16,7 @@ const ProfilePage = () => {
 	const { authUser, authToken, authUpdateUserState } = useAuth();
 	const navigate = useNavigate();
 
-	const [username, setUsername] = useState(authUser?.name || "");
+	const [username, setUsername] = useState(authUser?.username || "");
 	const [currentPassword, setCurrentPassword] = useState("");
 	const [newPassword, setNewPassword] = useState("");
 	const [confirmNewPassword, setConfirmNewPassword] = useState("");
@@ -39,13 +37,12 @@ const ProfilePage = () => {
 	const handleUsernameSubmit = async (e: FormEvent) => {
 		e.preventDefault();
 
-		if (username === authUser?.name) {
+		if (username === authUser?.username) {
 			toast("No changes detected.");
 			return;
 		}
 
-		if (!window.confirm("Are you sure you want to update your username?"))
-			return;
+		if (!window.confirm("Are you sure you want to update your username?")) return;
 
 		try {
 			const res = await fetch(`${VITE_API_URL}/users/profile`, {
@@ -62,9 +59,7 @@ const ProfilePage = () => {
 			if (body.status === "error") throw new Error(body.message);
 
 			toast.success("Username updated successfully.");
-
-			// ✅ CORRECT PROPERTY NAME: "name"
-			authUpdateUserState({ name: username });
+			authUpdateUserState({ username });
 		} catch (err: unknown) {
 			if (err instanceof Error) toast.error(err.message);
 		}
@@ -112,7 +107,7 @@ const ProfilePage = () => {
 		id: string,
 	) => (
 		<div className="flex flex-col space-y-2 relative">
-			<label htmlFor={id} className="text-sm font-medium">
+			<label htmlFor={id} className="text-sm font-medium text-gray-100">
 				{label}
 			</label>
 			<input
@@ -121,13 +116,13 @@ const ProfilePage = () => {
 				value={value}
 				onChange={(e) => setValue(e.target.value)}
 				required
-				className="w-full p-2 border rounded pr-10"
+				className="w-full p-3 border border-gray-300 rounded-xl pr-10 focus:outline-none focus:ring-2 focus:ring-orange-400"
 			/>
 			<button
 				type="button"
 				aria-label="Toggle password visibility"
 				onClick={visibilityHook.toggleVisibility}
-				className="absolute right-3 top-9 cursor-pointer text-gray-600"
+				className="absolute right-3 top-10 text-gray-600"
 			>
 				{visibilityHook.isVisible ? <FaEyeSlash /> : <FaEye />}
 			</button>
@@ -135,65 +130,71 @@ const ProfilePage = () => {
 	);
 
 	return (
-		<main className="min-h-screen bg-primary flex flex-col items-center justify-center p-6">
-			<form
-				onSubmit={handleUsernameSubmit}
-				className="bg-white p-6 rounded shadow-md space-y-4 w-full max-w-md"
-			>
-				<h2 className="text-xl font-semibold">Update Username</h2>
+		<main className="min-h-screen text-white bg-primary flex flex-col items-center justify-center p-6">
+			<h1 className="text-3xl font-bold mb-8">
+				Welcome,  <span className="text-orange-400">{authUser?.username}</span> !
+			</h1>
+			<p className="text-lg text-gray-200 mb-6">
+				Here you can change your Username and modify your password.
+			</p>
 
-				<input
-					type="text"
-					placeholder="New username"
-					value={username}
-					onChange={(e) => setUsername(e.target.value)}
-					required
-					className="w-full p-2 border rounded"
-				/>
+			<div className="bg-white/30 backdrop-blur-md p-8 rounded-2xl shadow-xl space-y-10 w-full max-w-md">
+			<h2 className="text-2xl font-semibold text-black text-center flex items-center justify-center gap-2"> <FaUserEdit />
+  Update Username
+</h2>
 
-				<button
-					type="submit"
-					className="w-full bg-blue-600 hover:bg-blue-700 text-white p-2 rounded"
-				>
-					Update Username
-				</button>
-			</form>
 
-			<form
-				onSubmit={handlePasswordChange}
-				className="bg-white p-6 rounded shadow-md space-y-4 w-full max-w-md mt-6"
-			>
-				<h2 className="text-xl font-semibold">Change Password</h2>
+				<form onSubmit={handleUsernameSubmit} className="space-y-4">
+					<input
+						type="text"
+						placeholder="New username"
+						value={username}
+						onChange={(e) => setUsername(e.target.value)}
+						required
+						className="w-full p-3 border text-gray-100 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-400"
+					/>
+					<button
+						type="submit"
+						className="w-full bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-xl font-medium shadow-md hover:shadow-lg transition"
+					>
+						Update Username
+					</button>
+		
+				<h2 className="text-2xl font-semibold text-black text-center flex items-center justify-center gap-2">
+  <FaKey />Change Password 
+</h2>
 
-				{renderPasswordField(
-					"Current Password",
-					currentPassword,
-					setCurrentPassword,
-					currentPassToggle,
-					"currentPassword",
-				)}
-				{renderPasswordField(
-					"New Password",
-					newPassword,
-					setNewPassword,
-					newPassToggle,
-					"newPassword",
-				)}
-				{renderPasswordField(
-					"Confirm New Password",
-					confirmNewPassword,
-					setConfirmNewPassword,
-					confirmPassToggle,
-					"confirmNewPassword",
-				)}
 
-				<button
-					type="submit"
-					className="w-full bg-green-600 hover:bg-green-700 text-white p-2 rounded"
-				>
-					Update Password
-				</button>
-			</form>
+					{renderPasswordField(
+						"Current Password",
+						currentPassword,
+						setCurrentPassword,
+						currentPassToggle,
+						"currentPassword",
+					)}
+					{renderPasswordField(
+						"New Password",
+						newPassword,
+						setNewPassword,
+						newPassToggle,
+						"newPassword",
+					)}
+					{renderPasswordField(
+						"Confirm New Password",
+						confirmNewPassword,
+						setConfirmNewPassword,
+						confirmPassToggle,
+						"confirmNewPassword",
+					)}
+
+					<button
+						type="submit"
+						className="w-full bg-green-600 hover:bg-green-700 text-white p-3 rounded-xl font-medium shadow-md hover:shadow-lg transition"
+					>
+						Update Password
+					</button>
+				</form>
+			</div>
 		</main>
 	);
 };
