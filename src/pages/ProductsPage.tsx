@@ -5,6 +5,10 @@ import { useParams, useNavigate } from "react-router-dom";
 import useProducts from "../hooks/useProducts";
 import { toast } from "sonner";
 import Swal from "sweetalert2";
+import { FaArrowRight } from "react-icons/fa";
+
+
+
 
 type Params = {
 	inventoryId?: string;
@@ -130,22 +134,26 @@ const ProductsPage: React.FC = () => {
 	if (productsLoading) return <p className="p-6">Loading...</p>;
 
 	return (
-		<div className="p-6">
-			<div className="flex justify-between items-center mb-4">
-				<h1 className="text-2xl font-bold">
-					Products of Inventory #{inventoryId}
-				</h1>
-				<button
-					type="button"
-					onClick={handleAdd}
-					className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
-				>
-					+ Add Product
-				</button>
-			</div>
+		<div className="m-10 p-6">
+			<div>
+  <h1 className="text-2xl text-orange-400 font-bold mb-2">#{inventoryId}</h1>
+  <p className="text-white flex items-center gap-2">
+    Click here to add new products
+    <FaArrowRight size={16} />
+    <button
+      onClick={handleAdd}
+      className="border border-white text-white px-3 py-1 rounded hover:bg-orange-400 hover:border-orange-950 hover:text-black transition"
+    >
+      Add Product
+    </button>
+  </p>
+
+
+</div>
+
 
 			{products.length === 0 ? (
-				<p>No products found.</p>
+				<p className="m-10 text-gray-500">Saved products will show here....</p>
 			) : (
 				<table className="w-full border-collapse border border-gray-300">
 					<thead>
@@ -186,14 +194,14 @@ const ProductsPage: React.FC = () => {
 												<button
 													type="button"
 													onClick={() => handleSave(prod.id)}
-													className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
+													className="border border-black text-black px-3 py-1 rounded hover:bg-black hover:text-white transition-colors"
 												>
 													Save
 												</button>
 												<button
 													type="button"
 													onClick={handleCancel}
-													className="bg-gray-500 text-white px-3 py-1 rounded hover:bg-gray-600"
+													className="border border-black text-black px-3 py-1 rounded hover:bg-black hover:text-white transition-colors"
 												>
 													Cancel
 												</button>
@@ -203,14 +211,14 @@ const ProductsPage: React.FC = () => {
 												<button
 													type="button"
 													onClick={() => handleEdit(prod.id)}
-													className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+													className="border border-black text-black px-3 py-1 rounded hover:bg-black hover:text-white transition-colors"
 												>
 													Edit
 												</button>
 												<button
 													type="button"
 													onClick={() => handleDelete(prod.id)}
-													className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+													className="border border-black text-black px-3 py-1 rounded hover:bg-black hover:text-white transition-colors"
 												>
 													Delete
 												</button>
