@@ -34,7 +34,7 @@ const RegisterPage = () => {
 			}
 
 			toast.success("Account created successfully. Please log in.");
-			navigate("/login");
+			navigate("/?mode=login");
 		} catch (err) {
 			const errorMessage =
 				err && typeof err === "object" && "message" in err
