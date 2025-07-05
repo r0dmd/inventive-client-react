@@ -7,7 +7,7 @@ import { createContext } from "react";
 
 export type AuthUser = {
 	id: string;
-	name: string;
+	username: string;
 	role: string;
 };
 

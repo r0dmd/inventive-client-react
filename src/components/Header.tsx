@@ -15,7 +15,9 @@ const Header = () => {
 
 	return (
 		<header className="flex justify-between items-center p-6 mr-3 text-white bg-gradient-to-br from-black via-gray-900 to-gray-800">
-			<h1 className="text-2xl font-bold text-white">{VITE_APP_NAME}</h1>
+			<h1 className="text-2xl font-bold text-white">
+				<NavLink to="/">{VITE_APP_NAME}</NavLink>
+			</h1>
 			<nav>
 				<ul className="flex gap-4 text-gray-700">
 					<li>
@@ -109,7 +111,7 @@ const Header = () => {
 								<button
 									type="button"
 									onClick={handleLogout}
-									className="font-semibold text-white hover:text-orange-400"
+									className="font-semibold text-white hover:text-orange-400 cursor-pointer"
 								>
 									Logout
 								</button>

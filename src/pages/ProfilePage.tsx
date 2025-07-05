@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { FaEye, FaEyeSlash, FaUserEdit, FaKey } from "react-icons/fa";
 import { useTogglePasswordVisibility } from "../hooks";
 import { useAuth } from "../context/useAuth";
+import Swal from "sweetalert2";
 
 const { VITE_API_URL } = import.meta.env;
 
@@ -42,7 +43,17 @@ const ProfilePage = () => {
 			return;
 		}
 
-		if (!window.confirm("Are you sure you want to update your username?")) return;
+		const result = await Swal.fire({
+			title: "Are you sure?",
+			text: "Do you want to update your username?",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "Yes, update it!",
+		});
+
+		if (!result.isConfirmed) return;
 
 		try {
 			const res = await fetch(`${VITE_API_URL}/users/profile`, {
@@ -58,8 +69,14 @@ const ProfilePage = () => {
 
 			if (body.status === "error") throw new Error(body.message);
 
-			toast.success("Username updated successfully.");
 			authUpdateUserState({ username });
+
+			await Swal.fire({
+				title: "Updated!",
+				text: "Your username has been updated.",
+				icon: "success",
+				confirmButtonColor: "#3085d6",
+			});
 		} catch (err: unknown) {
 			if (err instanceof Error) toast.error(err.message);
 		}
@@ -90,10 +107,16 @@ const ProfilePage = () => {
 
 			if (body.status === "error") throw new Error(body.message);
 
-			toast.success("Password updated successfully.");
 			setCurrentPassword("");
 			setNewPassword("");
 			setConfirmNewPassword("");
+
+			await Swal.fire({
+				title: "Password Changed",
+				text: "Your password has been successfully updated.",
+				icon: "success",
+				confirmButtonColor: "#3085d6",
+			});
 		} catch (err: unknown) {
 			if (err instanceof Error) toast.error(err.message);
 		}
@@ -132,17 +155,17 @@ const ProfilePage = () => {
 	return (
 		<main className="min-h-screen text-white bg-primary flex flex-col items-center justify-center p-6">
 			<h1 className="text-3xl font-bold mb-8">
-				Welcome,  <span className="text-orange-400">{authUser?.username}</span> !
+				Welcome, <span className="text-orange-400">{authUser?.username}</span> !
 			</h1>
 			<p className="text-lg text-gray-200 mb-6">
 				Here you can change your Username and modify your password.
 			</p>
 
 			<div className="bg-white/30 backdrop-blur-md p-8 rounded-2xl shadow-xl space-y-10 w-full max-w-md">
-			<h2 className="text-2xl font-semibold text-black text-center flex items-center justify-center gap-2"> <FaUserEdit />
-  Update Username
-</h2>
-
+				<h2 className="text-2xl font-semibold text-black text-center flex items-center justify-center gap-2">
+					<FaUserEdit />
+					Update Username
+				</h2>
 
 				<form onSubmit={handleUsernameSubmit} className="space-y-4">
 					<input
@@ -159,12 +182,13 @@ const ProfilePage = () => {
 					>
 						Update Username
 					</button>
-		
-				<h2 className="text-2xl font-semibold text-black text-center flex items-center justify-center gap-2">
-  <FaKey />Change Password 
-</h2>
+				</form>
 
+				<h2 className="text-2xl font-semibold text-black text-center flex items-center justify-center gap-2 mt-10">
+					<FaKey /> Change Password
+				</h2>
 
+				<form onSubmit={handlePasswordChange} className="space-y-4">
 					{renderPasswordField(
 						"Current Password",
 						currentPassword,

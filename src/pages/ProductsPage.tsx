@@ -5,10 +5,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import useProducts from "../hooks/useProducts";
 import { toast } from "sonner";
 import Swal from "sweetalert2";
-import { FaArrowRight } from "react-icons/fa";
-
-
-
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
 type Params = {
 	inventoryId?: string;
@@ -131,26 +128,34 @@ const ProductsPage: React.FC = () => {
 		}
 	};
 
+	const handleBack = () => {
+		navigate(-1); // Go back to the previous page in history
+	};
+
 	if (productsLoading) return <p className="p-6">Loading...</p>;
 
 	return (
 		<div className="m-10 p-6">
 			<div>
-  <h1 className="text-2xl text-orange-400 font-bold mb-2">#{inventoryId}</h1>
-  <p className="text-white flex items-center gap-2">
-    Click here to add new products
-    <FaArrowRight size={16} />
-    <button
-      onClick={handleAdd}
-      className="border border-white text-white px-3 py-1 rounded hover:bg-orange-400 hover:border-orange-950 hover:text-black transition"
-    >
-      Add Product
-    </button>
-  </p>
-
-
-</div>
-
+				<button
+					type="button"
+					onClick={handleBack}
+					className="flex items-center gap-2 border rounded px-2 text-orange-400 font-bold mb-2 cursor-pointer"
+				>
+					<FaArrowLeft size={16} /> Go back to inventory list
+				</button>
+				<p className="text-white flex items-center gap-2">
+					Click here to add new products
+					<FaArrowRight size={16} />
+					<button
+						type="button"
+						onClick={handleAdd}
+						className="border border-white text-white px-3 py-1 rounded hover:bg-orange-400 hover:border-orange-950 hover:text-black transition"
+					>
+						Add Product
+					</button>
+				</p>
+			</div>
 
 			{products.length === 0 ? (
 				<p className="m-10 text-gray-500">Saved products will show here....</p>
