@@ -53,15 +53,15 @@ const HomePage = () => {
 						</div>
 					</div>
 
-					<div className="w-full md:w-1/2 min-h-[50vh] bg-[url('/recibo.jpg')] bg-cover bg-center relative p-4 ">
+					<div className="w-full md:w-1/2 min-h-[70vh] bg-[url('/recibo.jpg')] bg-cover bg-center relative p-4  ">
 						<div className="absolute inset-0"></div>
 
-						<div className="flex absolute inset-0 justify-center items-center">
+						<div className="flex absolute inset-0 justify-center items-center ">
 							<div className="rounded-lg w-90">
 								{isRegister ? <RegisterPage /> : <LoginPage />}
 
 								{isRegister ? (
-									<p className="mt-4 font-bold text-center text-black text-m">
+									<p className="mt-4 font-bold text-center text-black text-m mb-4">
 										Already have an account?
 										<button
 											type="button"
@@ -72,7 +72,7 @@ const HomePage = () => {
 										</button>
 									</p>
 								) : (
-									<p className="mt-4 font-bold text-center text-black text-m">
+									<p className="mt-4 font-bold text-center text-m text-black">
 										Don't have an account?
 										<button
 											type="button"
