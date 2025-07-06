@@ -78,6 +78,7 @@ const LoginPage = () => {
 						</label>
 						<input
 							id={passwordId}
+							placeholder="password"
 							type={isVisible ? "text" : "password"}
 							required
 							value={password}

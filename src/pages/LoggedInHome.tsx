@@ -22,7 +22,7 @@ const LoggedInHome: React.FC<LoggedInHomeProps> = ({
 			<div className="text-center mb-14">
 				<h1 className="text-5xl font-extrabold mb-6drop-shadow-lg">
 					Welcome to Inventive{" "}
-					<span className=" text-orange-400"> {authUser.name}</span> !
+					<span className=" text-orange-400"> {authUser.username}</span> !
 				</h1>
 				<p className="text-lg p-1.5 text-gray-300 max-w-xl mx-auto">
 					Organise your bills and inventories with ease.
@@ -30,7 +30,7 @@ const LoggedInHome: React.FC<LoggedInHomeProps> = ({
 			</div>
 
 			<div className="flex flex-col md:flex-row gap-12 mb-16">
-				{/* Crear Inventario */}
+				
 				<button
 					type="button"
 					onClick={() => navigate("/create-inventory")}
@@ -42,7 +42,7 @@ const LoggedInHome: React.FC<LoggedInHomeProps> = ({
 					</p>
 				</button>
 
-				{/* Ver Inventarios */}
+			
 				<button
 					type="button"
 					onClick={() => navigate("/inventories")}

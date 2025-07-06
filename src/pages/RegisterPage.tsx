@@ -48,7 +48,7 @@ const RegisterPage = () => {
 		<main className="flex items-center justify-center ">
 			<form
 				onSubmit={handleSubmit}
-				className="bg-black/50 p-8 rounded shadow-md space-y-4 w-full max-w-md"
+				className="bg-black/50 p-8 rounded shadow-md space-y-4 w-full max-w-md "
 			>
 				<h2 className="text-4xl text-white text-center font-bold mb-4">
 					Create Account
@@ -75,6 +75,7 @@ const RegisterPage = () => {
 						<input
 							id={passwordId}
 							type={isVisible ? "text" : "password"}
+							placeholder="password"
 							required
 							value={password}
 							onChange={(e) => setPassword(e.target.value)}
