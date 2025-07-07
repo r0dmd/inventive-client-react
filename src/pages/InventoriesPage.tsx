@@ -43,7 +43,7 @@ const InventoriesPage = () => {
 
 	const handleSave = async (inventoryId: string) => {
 		try {
-			await updateInventory(inventoryId, { name: editedName });
+			await updateInventory(inventoryId, { newInventoryName: editedName });
 			await getInventories();
 			setEditingId(null);
 			setEditedName("");
@@ -88,7 +88,7 @@ const InventoriesPage = () => {
 
 		try {
 			const formData = new FormData();
-			formData.append("name", result.value.trim());
+			formData.append("inventoryName", result.value.trim());
 			await addInventory(formData);
 			await getInventories();
 			toast.success("Inventory added");
@@ -102,20 +102,22 @@ const InventoriesPage = () => {
 		return <p className="p-6 text-center text-gray-600">Loading...</p>;
 
 	return (
-		<div className="p-8 mt-10 bg-white/30 backdrop-blur-md rounded-3xl shadow-lg max-w-5xl mx-auto"	>
+		<div className="p-8 mt-10 bg-white/30 backdrop-blur-md rounded-3xl shadow-lg max-w-5xl mx-auto">
 			<div className="flex justify-between items-center mb-8">
 				<h1 className="text-3xl font-bold text-orange-400">Inventories</h1>
 				<button
-  type="button"
-  onClick={handleAdd}
-  className="border border-black text-black px-6 py-3 rounded-xl hover:bg-orange-400 hover:text-white transition-colors"
->
-  + Add Inventory
-</button>
+					type="button"
+					onClick={handleAdd}
+					className="border border-black text-black px-6 py-3 rounded-xl hover:bg-orange-400 hover:text-white transition-colors"
+				>
+					+ Add Inventory
+				</button>
 			</div>
 
 			{inventories?.length === 0 ? (
-				<p className="text-center text-gray-600 text-lg">No inventory items found.</p>
+				<p className="text-center text-gray-600 text-lg">
+					No inventory items found.
+				</p>
 			) : (
 				<table className="w-full border-collapse rounded-xl overflow-hidden shadow-md">
 					<thead>
@@ -144,24 +146,28 @@ const InventoriesPage = () => {
 												className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-black"
 											/>
 										) : (
-											<span className="text-gray-900 font-medium">{inv.name}</span>
+											<span className="text-gray-900 font-medium">
+												{inv.inventory}
+											</span>
 										)}
 									</td>
-									<td className="p-4 text-gray-600">{"-"}</td>
-									<td className="p-4 text-gray-600">{"-"}</td>
+									<td className="p-4 text-gray-600">{inv.createdAt}</td>
+									<td className="p-4 text-gray-600">{inv.modifiedAt}</td>
 									<td className="p-4 space-x-2">
 										{isEditing ? (
 											<>
 												<button
 													type="button"
 													onClick={() => handleSave(inv.id)}
-className="border border-black text-black px-4 py-2 rounded-lg hover:bg-green-700 hover:text-white transition-colors"												>
+													className="border border-black text-black px-4 py-2 rounded-lg hover:bg-green-700 hover:text-white transition-colors"
+												>
 													Save
 												</button>
 												<button
 													type="button"
 													onClick={handleCancel}
-className="border border-black text-black px-4 py-2 rounded-lg hover:bg-red-800 hover:text-white transition-colors"												>
+													className="border border-black text-black px-4 py-2 rounded-lg hover:bg-red-800 hover:text-white transition-colors"
+												>
 													Cancel
 												</button>
 											</>
@@ -169,14 +175,16 @@ className="border border-black text-black px-4 py-2 rounded-lg hover:bg-red-800 
 											<>
 												<button
 													type="button"
-													onClick={() => handleEdit(inv.id, inv.name)}
-className="border border-black text-black px-4 py-2 rounded-lg hover:bg-green-700 hover:text-white transition-colors"												>
+													onClick={() => handleEdit(inv.id, inv.inventory)}
+													className="border border-black text-black px-4 py-2 rounded-lg hover:bg-green-700 hover:text-white transition-colors"
+												>
 													Edit
 												</button>
 												<button
 													type="button"
 													onClick={() => handleDelete(inv.id)}
-className="border border-black text-black px-4 py-2 rounded-lg hover:bg-red-800 hover:text-white transition-colors"												>
+													className="border border-black text-black px-4 py-2 rounded-lg hover:bg-red-800 hover:text-white transition-colors"
+												>
 													Delete
 												</button>
 												<button
@@ -184,7 +192,8 @@ className="border border-black text-black px-4 py-2 rounded-lg hover:bg-red-800 
 													onClick={() =>
 														navigate(`/inventories/${inv.id}/products`)
 													}
-className="border border-black text-black px-4 py-2 rounded-lg hover:bg-black hover:text-white transition-colors"												>
+													className="border border-black text-black px-4 py-2 rounded-lg hover:bg-black hover:text-white transition-colors"
+												>
 													View Products
 												</button>
 											</>

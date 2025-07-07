@@ -4,20 +4,21 @@ import { useAuth } from "../context/useAuth.js";
 
 const { VITE_API_URL } = import.meta.env;
 
-interface Product {
-	id: number | string;
-	productName: string;
-	quantity: number;
-	description?: string;   
-  	createdAt?: string;     
- 	updatedAt?: string; 
-
-}
-
 // TODO: MOVER TODOS LOS TIPOS E INTERFACES A UN ARCHIVO APARTE. ESTE DE APIRESPONSE SE REPITE EN OTROS HOOKS Y NO DEBERÍA
 interface ApiResponse<T> {
 	status: string;
-	products?: T[];
+	data?: {
+		products: T[];
+	};
+}
+
+interface Product {
+	productId: number | string;
+	product: string;
+	quantity: number;
+	description?: string;
+	createdAt?: string;
+	updatedAt?: string;
 }
 
 // ---------------------
@@ -45,8 +46,8 @@ const useProducts = (inventoryId: string | number) => {
 
 			if (data.status === "error") throw new Error("Failed to fetch products");
 
-			setProducts(data.products || []);
-			return data.products || [];
+			setProducts(data.data?.products || []);
+			return data.data?.products || [];
 		} catch (err) {
 			console.error("Error fetching products:", err);
 			toast.error("Error fetching products");

@@ -5,8 +5,10 @@ const { VITE_API_URL } = import.meta.env;
 
 export type Inventory = {
 	id: string;
-	name: string;
+	inventory: string;
 	description?: string;
+	createdAt: string;
+	modifiedAt: string;
 };
 
 type ApiResponse<T> = {
@@ -79,7 +81,7 @@ const useInventories = () => {
 	const updateInventory = useCallback(
 		async (
 			inventoryId: string,
-			updateData: Partial<Inventory>,
+			newInventoryName: { newInventoryName: string },
 		): Promise<Inventory> => {
 			try {
 				setInventoriesLoading(true);
@@ -92,7 +94,7 @@ const useInventories = () => {
 							"Content-Type": "application/json",
 							Authorization: authToken ?? "",
 						},
-						body: JSON.stringify(updateData),
+						body: JSON.stringify(newInventoryName),
 					},
 				);
 

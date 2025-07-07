@@ -34,7 +34,6 @@ const LoginPage = () => {
 			});
 
 			const body = await res.json();
-			console.log(body);
 
 			if (body.status === "error") {
 				throw new Error(body.message);

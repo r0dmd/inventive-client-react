@@ -134,6 +134,8 @@ const ProductsPage: React.FC = () => {
 
 	if (productsLoading) return <p className="p-6">Loading...</p>;
 
+	console.log(products);
+
 	return (
 		<div className="m-10 p-6">
 			<div>
