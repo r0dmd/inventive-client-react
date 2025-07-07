@@ -61,7 +61,7 @@ const HomePage = () => {
 								{isRegister ? <RegisterPage /> : <LoginPage />}
 
 								{isRegister ? (
-									<p className="mt-4 font-bold text-center text-black text-m mb-4">
+									<p className="my-4 font-bold text-center text-m text-black rounded bg-white/70">
 										Already have an account?
 										<button
 											type="button"
@@ -72,7 +72,7 @@ const HomePage = () => {
 										</button>
 									</p>
 								) : (
-									<p className="mt-4 font-bold text-center text-m text-black">
+									<p className="my-4 font-bold text-center text-m text-black rounded bg-white/70">
 										Don't have an account?
 										<button
 											type="button"

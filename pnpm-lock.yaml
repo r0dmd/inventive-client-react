@@ -39,6 +39,9 @@ importers:
       '@biomejs/biome':
         specifier: 2.0.5
         version: 2.0.5
+      '@biomejs/cli-darwin-x64':
+        specifier: ^2.0.6
+        version: 2.0.6
       '@types/react':
         specifier: ^19.1.8
         version: 19.1.8
@@ -153,6 +156,12 @@ packages:
 
   '@biomejs/cli-darwin-x64@2.0.5':
     resolution: {integrity: sha512-DRpGxBgf5Z7HUFcNUB6n66UiD4VlBlMpngNf32wPraxX8vYU6N9cb3xQWOXIQVBBQ64QfsSLJnjNu79i/LNmSg==}
+    engines: {node: '>=14.21.3'}
+    cpu: [x64]
+    os: [darwin]
+
+  '@biomejs/cli-darwin-x64@2.0.6':
+    resolution: {integrity: sha512-wJjjP4E7bO4WJmiQaLnsdXMa516dbtC6542qeRkyJg0MqMXP0fvs4gdsHhZ7p9XWTAmGIjZHFKXdsjBvKGIJJQ==}
     engines: {node: '>=14.21.3'}
     cpu: [x64]
     os: [darwin]
@@ -1061,6 +1070,8 @@ snapshots:
 
   '@biomejs/cli-darwin-x64@2.0.5':
     optional: true
+
+  '@biomejs/cli-darwin-x64@2.0.6': {}
 
   '@biomejs/cli-linux-arm64-musl@2.0.5':
     optional: true
