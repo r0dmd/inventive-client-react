@@ -21,6 +21,12 @@ interface Product {
 	updatedAt?: string;
 }
 
+type NewProductInput = {
+	productName: string;
+	description: string;
+	quantity: number;
+};
+
 // ---------------------
 const useProducts = (inventoryId: string | number) => {
 	const { authToken } = useAuth();
@@ -43,10 +49,20 @@ const useProducts = (inventoryId: string | number) => {
 			});
 
 			const data: ApiResponse<Product> = await res.json();
+			console.log(data);
 
 			if (data.status === "error") throw new Error("Failed to fetch products");
 
-			setProducts(data.data?.products || []);
+			setProducts(
+				(data.data?.products || []).map((p) => ({
+					productId: p.productId,
+					product: p.product,
+					description: p.description,
+					quantity: p.quantity,
+					createdAt: p.createdAt,
+					updatedAt: p.updatedAt,
+				})),
+			);
 			return data.data?.products || [];
 		} catch (err) {
 			console.error("Error fetching products:", err);
@@ -58,7 +74,7 @@ const useProducts = (inventoryId: string | number) => {
 	}, [authToken, inventoryId]);
 
 	const addProduct = useCallback(
-		async (productData: Omit<Product, "id">): Promise<Product> => {
+		async (productData: NewProductInput): Promise<void> => {
 			try {
 				setProductsLoading(true);
 
@@ -75,15 +91,15 @@ const useProducts = (inventoryId: string | number) => {
 					body: JSON.stringify(productData),
 				});
 
-				const newProduct: ApiResponse<Product> = await res.json();
-				if (newProduct.status === "error")
+				const response = await res.json();
+				if (response.status === "error") {
 					throw new Error("Failed to add product");
+				}
 
-				setProducts((prev) => [
-					...prev,
-					newProduct.products?.[0] || ({} as Product),
-				]);
-				return newProduct.products?.[0] || ({} as Product);
+				// Instead of expecting the product, just refresh the list
+				await getProducts();
+
+				toast.success("Product added successfully");
 			} catch (err) {
 				console.error("Error adding product:", err);
 				toast.error("Error adding product");
@@ -92,7 +108,7 @@ const useProducts = (inventoryId: string | number) => {
 				setProductsLoading(false);
 			}
 		},
-		[authToken, inventoryId],
+		[authToken, inventoryId, getProducts],
 	);
 
 	const updateProduct = useCallback(
@@ -157,7 +173,9 @@ const useProducts = (inventoryId: string | number) => {
 
 				if (!res.ok) throw new Error("Failed to delete product");
 
-				setProducts((prev) => prev.filter((prod) => prod.id !== productId));
+				setProducts((prev) =>
+					prev.filter((prod) => prod.productId !== productId),
+				);
 			} catch (err) {
 				console.error("Error deleting product:", err);
 				toast.error("Error deleting product");

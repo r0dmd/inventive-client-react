@@ -75,7 +75,11 @@ const ProductsPage: React.FC = () => {
 		if (!formValues) return;
 
 		try {
-			await addProduct(formValues);
+			await addProduct({
+				productName: formValues.productName,
+				description: formValues.description,
+				quantity: formValues.quantity,
+			});
 			await getProducts();
 			toast.success("Product added successfully");
 		} catch (err: unknown) {
@@ -86,8 +90,8 @@ const ProductsPage: React.FC = () => {
 
 	const handleEdit = (productId: string | number) => {
 		setEditingId(productId);
-		const productToEdit = products.find((p) => p.id === productId);
-		setEditedName(productToEdit?.productName || "");
+		const productToEdit = products.find((p) => p.productId === productId);
+		setEditedName(productToEdit?.product || "");
 	};
 
 	const handleCancel = () => {
@@ -97,7 +101,7 @@ const ProductsPage: React.FC = () => {
 
 	const handleSave = async (productId: string | number) => {
 		try {
-			await updateProduct(productId, { productName: editedName });
+			await updateProduct(productId, { product: editedName });
 			setEditingId(null);
 			setEditedName("");
 			toast.success("Product updated");
@@ -175,10 +179,10 @@ const ProductsPage: React.FC = () => {
 					</thead>
 					<tbody>
 						{products.map((prod) => {
-							const isEditing = editingId === prod.id;
+							const isEditing = editingId === prod.productId;
 
 							return (
-								<tr key={prod.id}>
+								<tr key={prod.productId}>
 									<td className="border p-2">
 										{isEditing ? (
 											<input
@@ -188,7 +192,7 @@ const ProductsPage: React.FC = () => {
 												className="border px-2 py-1 w-full"
 											/>
 										) : (
-											prod.productName
+											prod.product
 										)}
 									</td>
 									<td className="border p-2">{prod.description}</td>
@@ -200,7 +204,7 @@ const ProductsPage: React.FC = () => {
 											<>
 												<button
 													type="button"
-													onClick={() => handleSave(prod.id)}
+													onClick={() => handleSave(prod.productId)}
 													className="border border-black text-black px-3 py-1 rounded hover:bg-black hover:text-white transition-colors"
 												>
 													Save
@@ -217,14 +221,14 @@ const ProductsPage: React.FC = () => {
 											<>
 												<button
 													type="button"
-													onClick={() => handleEdit(prod.id)}
+													onClick={() => handleEdit(prod.productId)}
 													className="border border-black text-black px-3 py-1 rounded hover:bg-black hover:text-white transition-colors"
 												>
 													Edit
 												</button>
 												<button
 													type="button"
-													onClick={() => handleDelete(prod.id)}
+													onClick={() => handleDelete(prod.productId)}
 													className="border border-black text-black px-3 py-1 rounded hover:bg-black hover:text-white transition-colors"
 												>
 													Delete
