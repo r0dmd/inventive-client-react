@@ -7,6 +7,7 @@ import ProfilePage from "./ProfilePage";
 import UserAdminPage from "./UserAdminPage";
 import ProductsPage from "./ProductsPage";
 import CreateInventoryPage from "./CreateInventoryPage";
+import UploadInvoicePage from "./UploadInvoicePage";
 
 export {
 	LoginPage,
@@ -18,4 +19,5 @@ export {
 	UserAdminPage,
 	ProductsPage,
 	CreateInventoryPage,
+	UploadInvoicePage,
 };

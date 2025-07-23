@@ -14,6 +14,7 @@ import {
 	UserAdminPage,
 	ProductsPage,
 	CreateInventoryPage,
+	UploadInvoicePage,
 } from "./pages/index";
 
 // ------------------------------------------
@@ -30,6 +31,7 @@ function App() {
 					<Route path="*" element={<NotFoundPage />} />
 					<Route path="/profile" element={<ProfilePage />} />
 
+					<Route path="/upload" element={<UploadInvoicePage />} />
 					<Route path="/inventories" element={<InventoriesPage />} />
 					<Route
 						path="/inventories/:inventoryId/products"
